@@ -7,29 +7,29 @@ import { sign } from "jsonwebtoken";
 import "dotenv/config"
 
 export class SessionService {
-    async create({email,password}: TLoginRequest){
+    async create({email,senha}: TLoginRequest){
         const clientRepository = AppDataSource.getRepository(Client)
         const findClient = await clientRepository.findOne({
             where: {
                 email
             },
-            relations: {
-                Contacts: true
-            }
+            // relations: {
+            //     Contacts: true
+            // }
         })
-
+        console.log(findClient)
         if(!findClient){
             throw new AppError("Credenciais inválidas", 401)
         }
 
-        const passwordMatch = await compare(password, findClient.password)
+        const passwordMatch = await compare(senha, findClient.senha)
 
         if(!passwordMatch) {
             throw new AppError("Credenciais inválidas", 401)
         }
 
         const token = sign(
-            {userName: findClient.name}, 
+            {userName: findClient.nome}, 
             process.env.SECRET_KEY!, 
             {expiresIn: "1h", subject: findClient.id})
 

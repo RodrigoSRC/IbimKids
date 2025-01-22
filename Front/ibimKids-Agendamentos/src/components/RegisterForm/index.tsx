@@ -21,6 +21,7 @@ export const RegisterForm = () => {
     const { userRegister } = useContext(UserContext)
 
     const submit: SubmitHandler<FieldValues> = (formData) => {
+        console.log(formData)
         userRegister(formData)
     }
 
@@ -65,7 +66,7 @@ export const RegisterForm = () => {
                     handlePhone
                   }
                 placeholder="Opção de contato" 
-                {...register("telephone")} 
+                {...register("telefone")} 
                 error={errors.telefone as { message: string } | undefined}/>
 
 

@@ -1,6 +1,6 @@
 type TLoginRequest = {
     email: string
-    password: string
+    senha: string
 }
 
 export {TLoginRequest}

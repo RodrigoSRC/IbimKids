@@ -18,7 +18,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({error, title, ..
             >{title}</StyledParagraph>
             
             <input ref={ref} {...rest}/>
-            {error ? <p className="errorMessage">{error.message}</p> : null}
+            {error ? <p className="errorMessage">{error?.message}</p> : null}
         </Container>
 
     )

@@ -71,6 +71,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
     const userLogin = async (data: LoginData) => {
         try {
+            console.log(data)
             const response = await api.post("/login", 
             data)
 
@@ -109,7 +110,9 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
     const userRegister = async (formData: RegisterFormData) => {
         try {
+            
             await api.post('/clients', formData);
+            console.log(formData)
 
             toast.success("Usuário cadastrado com sucesso", {
               theme: "dark",

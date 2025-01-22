@@ -9,7 +9,7 @@ export const RegisterPage = () => {
         <StyledContainer>
             <div className="formBox">
                 <div className="navBar">
-                    <StyledLogo><span>Ur</span> Contact</StyledLogo>
+                    <StyledLogo>Ibim <span>Kids</span> Escalas</StyledLogo>
 
                     <Link to="/">Voltar</Link>
                 </div>

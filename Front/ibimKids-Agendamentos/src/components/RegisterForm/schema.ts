@@ -2,7 +2,7 @@ import { z } from "zod";
 import { FormEvent } from "react"
 
 export const registerFormSchema = z.object({
-    name: z
+    nome: z
         .string()
         .nonempty("Insira o nome do usuário."),
 

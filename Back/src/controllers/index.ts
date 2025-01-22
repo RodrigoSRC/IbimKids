@@ -1,7 +1,7 @@
 import { ProfService } from "../services/professores.service";
-import { ProfsController } from "./professores.controller";
+import { ProfsController } from "./professores.controllers";
 import { SessionService } from "../services/session.service";
-import { SessionController } from "./session.controller";
+import { SessionController } from "./session.controllers";
 import { AgendamentoController } from "./agendamentos.controllers";
 import { AgendamentoService } from "../services/agendamentos.service";
 import { EscalaController } from "./escala.controllers";

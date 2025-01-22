@@ -34,6 +34,7 @@ export const LoginForm = () => {
 
 
     const submit: SubmitHandler<LoginFormValues> = (formData) => {
+        console.log(formData)
         userLogin(formData)
     }
 
