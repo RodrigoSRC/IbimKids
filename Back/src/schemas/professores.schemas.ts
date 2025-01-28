@@ -3,8 +3,6 @@ import {z} from "zod"
 const profSchema = z.object({
     id: z.string(),
     nome: z.string(),
-    // email: z.string().email(),
-    // password: z.string(),
     telefone: z.string(),
     dataRegistrada: z.string()
 })

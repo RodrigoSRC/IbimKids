@@ -1,7 +1,5 @@
 import styled from "styled-components";
-// const toggleModalAdd = () => setIsOpenAdd(!isOpenAdd)
-// const toggleModalEdit = () => setIsOpenEdit(!isOpenEdit)
-// const toggleModalRemove = () => setIsOpenRemove(!isOpenRemove)
+
 export const StyledContainer = styled.main`
     display: flex;
     flex-direction: column;

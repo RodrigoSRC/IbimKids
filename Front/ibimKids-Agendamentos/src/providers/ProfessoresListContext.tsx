@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import { api } from "../services/api";
 import { Professor } from "../pages/HomePage";
 import { toast } from "react-toastify"
@@ -39,8 +39,6 @@ export const ProfessoresListProvider = ({ children }:ProfessorProviderProps) => 
   const [isOpenRemoveProf, setIsOpenRemoveProf] = useState(false);
 
  
-
-
   useEffect(() => {
     const getProfessoresToList = async () => {
       try {

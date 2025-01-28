@@ -29,7 +29,7 @@ import { ProfessoresListContext } from "../../providers/ProfessoresListContext";
 
 
 export interface Escala {
-    id: string
+    id: string;
     nome: string;
     descricao: string;
     faixa_etaria: string;
@@ -39,7 +39,7 @@ export interface Escala {
 }
 
 export interface Professor {
-    id: string
+    id: string;
     nome: string;
     telefone: string;
 }
@@ -62,15 +62,18 @@ export const HomePage = () => {
     useEffect(() => {
         (
             async () => {
-                const responseEscalas = await api.get("/escalas")
-                setEscalas(responseEscalas.data)
+                console.log(1)
+                const responseEscalas = await api.get("/escalas");
+                console.log(2)
+                setEscalas(responseEscalas.data);
 
-                const responseProf = await api.get("/professores")
-                setProfessores(responseProf.data)
+                const responseProf = await api.get("/professores");
+                setProfessores(responseProf.data);
+
             }
         )()
     }, [])
-
+      
 
     const toggleModalAddEscala = () => setIsOpenAddEscala(!isOpenAddEscala)
     const toggleModalEditEscala = () => setIsOpenEditEscala(!isOpenEditEscala)
@@ -126,7 +129,7 @@ export const HomePage = () => {
 
                 <section className="headerSection">
                     <header>
-                            <StyledTitle>{user.name}</StyledTitle>
+                            <StyledTitle>{user.nome}</StyledTitle>
                             <div>
                                 <MdEdit style={{ width: '20px', height: '20px', cursor: 'pointer'}} onClick={toggleModalEditUser}/>
                                 <FaTrashAlt style={{ width: '20px', height: '20px', cursor: 'pointer'}} onClick={toggleModalRemoveUser}/>
@@ -146,15 +149,17 @@ export const HomePage = () => {
                         {renderEscalas(escalas)}
                     </ul>
 
-                    <section>
-                        <StyledTitle>Atualmente <span>{professores.length}</span> professores</StyledTitle>
+                    {/* <section>
+                        <StyledTitle>Atualmente 
+                            <span>{professores.length}</span> 
+                        professores</StyledTitle>
 
                         <FaPlusCircle style={{ width: '20px', height: '20px', cursor: 'pointer'}} type="button" onClick={toggleModalAddEscala}/>
 
                     </section>
                     <ul>
                         {renderProfessores(professores)}
-                    </ul>
+                    </ul> */}
 
                 </div>
 

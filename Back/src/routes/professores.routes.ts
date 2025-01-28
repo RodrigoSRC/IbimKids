@@ -2,8 +2,11 @@ import { Router } from "express";
 import { profsController } from "../controllers";
 import { ensureDataIsValidMiddleware } from "../middlewares/ensureDataIsValid.middleware";
 import { profSchemaRequest } from "../schemas/professores.schemas";
+import { ensureAuthMiddleware } from "../middlewares/ensureAuth.middleware";
 
 const profsRoutes = Router()
+
+profsRoutes.use(ensureAuthMiddleware)
 
 profsRoutes.post("", ensureDataIsValidMiddleware(profSchemaRequest), (req, res) => profsController.create(req, res))
 

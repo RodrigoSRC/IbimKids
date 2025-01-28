@@ -75,6 +75,19 @@ export class EscalaService {
         return escalaSchemaResponse.parse(escala)
     }
 
+    async listAll() {
+        const escalaRepository = AppDataSource.getRepository(Escala);
+    
+        // Busca todas as escalas, incluindo os professores relacionados
+        const escalas = await escalaRepository.find({
+            relations: ["professores"], // Caso precise trazer os professores associados
+        });
+    
+        // Valida e transforma os dados antes de retornar
+        return escalas.map((escala) => escalaSchemaResponse.parse(escala));
+    }
+    
+
 
     async update(data: TEscalaUpdateRequest, escalaId: string): Promise<TEscalaResponse> {
         const {data_turno, professorIds} = data

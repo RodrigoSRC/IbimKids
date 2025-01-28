@@ -1,8 +1,7 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import { api } from "../services/api";
 import { Escala } from "../pages/HomePage";
 import { toast } from "react-toastify"
-import { UserContext } from "./UserContext";
 
 interface FormData {
   nome: string;

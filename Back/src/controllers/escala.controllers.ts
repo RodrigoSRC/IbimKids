@@ -19,6 +19,12 @@ class EscalaController {
 
         return res.json(escalas)
     }
+    
+    async listAll(req: Request, res: Response) {
+        const escalas = await this.escalaServices.listAll();
+    
+        return res.status(200).json(escalas);
+    }
 
     async update(req: Request, res: Response) {
         const updatedValues: TEscalaUpdateRequest = req.body
