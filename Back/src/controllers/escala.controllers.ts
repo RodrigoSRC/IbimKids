@@ -13,17 +13,18 @@ class EscalaController {
         return res.status(201).json(newEscala)
     }
 
-    async list(req: Request, res: Response) {
-        const escalaId = req.params.id as string
-        const escalas = await this.escalaServices.list(escalaId)
+    // async list(req: Request, res: Response) {
+    //     const escalaId = req.params.id as string
+    //     const escalas = await this.escalaServices.list(escalaId)
 
-        return res.json(escalas)
-    }
+    //     return res.json(escalas)
+    // }
     
-    async listAll(req: Request, res: Response) {
-        const escalas = await this.escalaServices.listAll();
+    async list(req: Request, res: Response) {
+        console.log("passou pro controller")
+        const escalas = await this.escalaServices.list();
     
-        return res.status(200).json(escalas);
+        return res.json(escalas);
     }
 
     async update(req: Request, res: Response) {
