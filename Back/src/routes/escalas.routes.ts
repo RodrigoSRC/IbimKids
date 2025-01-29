@@ -10,10 +10,6 @@ escalaRoutes.use(ensureAuthMiddleware)
 
 escalaRoutes.post("", ensureDataIsValidMiddleware(escalaSchema), (req, res) => escalaController.create(req, res))
 
-// escalaRoutes.get("/:id", (req, res) => escalaController.list(req, res))
-
-escalaRoutes.get("", (req, res) => escalaController.list(req, res));
-
 escalaRoutes.patch("/:id", ensureDataIsValidMiddleware(escalaSchema),
 (req, res) => escalaController.update(req, res))
 

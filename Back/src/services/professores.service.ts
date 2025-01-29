@@ -30,15 +30,28 @@ export class ProfService {
         return profSchemaResponse.parse(prof)
     }
 
-    async list(profId: string) {
-        const profRepository = AppDataSource.getRepository(Professor)
-        const prof = await profRepository.findOneBy({ id: profId })
+    // async list(profId: string) {
+    //     const profRepository = AppDataSource.getRepository(Professor)
+    //     const prof = await profRepository.findOneBy({ id: profId })
 
-        if (!prof) {
-            throw new AppError("Professor não encontrado", 404)
-        }
+    //     if (!prof) {
+    //         throw new AppError("Professor não encontrado", 404)
+    //     }
     
-        return profSchemaResponse.parse(prof)
+    //     return profSchemaResponse.parse(prof)
+    // }
+    async list() {
+        const profRepository = AppDataSource.getRepository(Professor);
+    
+        // Busca todas as escalas, incluindo os professores relacionados
+        const profs = await profRepository.find(
+        //     {
+        //     relations: ["professores"], // Caso precise trazer os professores associados
+        // }
+    );
+    
+        // Valida e transforma os dados antes de retornar
+        return profs.map((prof) => profSchemaResponse.parse(profs));
     }
 
     async update(data: TProfUpdateRequest, profId: string): Promise<TProfResponse> {

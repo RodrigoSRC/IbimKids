@@ -77,6 +77,7 @@ export class EscalaService {
 
     async list() {
         const escalaRepository = AppDataSource.getRepository(Escala);
+        console.log("service")
     
         // Busca todas as escalas, incluindo os professores relacionados
         const escalas = await escalaRepository.find(

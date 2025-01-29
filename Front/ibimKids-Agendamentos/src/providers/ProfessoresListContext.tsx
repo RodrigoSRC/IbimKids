@@ -11,6 +11,7 @@ interface FormData {
 
 interface ProfessoresValues {
   professores: Professor[];
+  // setProfessores: React.Dispatch<React.SetStateAction<Professor[]>>;
   setProfessores: React.Dispatch<React.SetStateAction<Professor[]>>;
   addProfessor: (formData: any) => Promise<void>;
   editProfessor: (formData: any, professorId: string) => Promise<void>;

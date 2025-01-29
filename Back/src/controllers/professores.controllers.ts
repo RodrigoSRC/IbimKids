@@ -13,11 +13,16 @@ class ProfsController {
         return res.status(201).json(newProf)
     }
 
-    async list(req: Request, res: Response) {
-        const profId = req.params.id as string
-        const profs = await this.profServices.list(profId)
+    // async list(req: Request, res: Response) {
+    //     const profId = req.params.id as string
+    //     const profs = await this.profServices.list(profId)
 
-        return res.json(profs)
+    //     return res.json(profs)
+    // }
+    async list(req: Request, res: Response) {
+        const profs = await this.profServices.list();
+    
+        return res.json(profs);
     }
 
     async update(req: Request, res: Response) {

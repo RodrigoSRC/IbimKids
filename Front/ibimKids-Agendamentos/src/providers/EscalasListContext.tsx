@@ -47,8 +47,22 @@ export const EscalasListProvider = ({ children }:EscalaProviderProps) => {
 
   useEffect(() => {
     const getEscalasToList = async () => {
+      // const token = localStorage.getItem("@TOKEN")
+
+      // if (token) {
+      //   api.defaults.headers.common.Authorization = `Bearer ${token}`
+      // }
+      // const token = localStorage.getItem("@TOKEN");
+      // if (!token) {
+      //   console.error("Token ausente");
+      // }
+      // else{
+      //   console.log(token)
+      // }
+
       try {
         const { data } = await api.get("/escalas");
+        console.log(data)
         setEscalas(data);
       } catch (error) {
         console.log(error);

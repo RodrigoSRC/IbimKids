@@ -10,7 +10,7 @@ profsRoutes.use(ensureAuthMiddleware)
 
 profsRoutes.post("", ensureDataIsValidMiddleware(profSchemaRequest), (req, res) => profsController.create(req, res))
 
-profsRoutes.get("/:id", (req, res) => profsController.list(req, res))
+profsRoutes.get("", (req, res) => profsController.list(req, res))
 
 profsRoutes.patch("/:id", ensureDataIsValidMiddleware(profSchemaRequest),
 (req, res) => profsController.update(req, res))

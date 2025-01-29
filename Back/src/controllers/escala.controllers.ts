@@ -21,7 +21,6 @@ class EscalaController {
     // }
     
     async list(req: Request, res: Response) {
-        console.log("passou pro controller")
         const escalas = await this.escalaServices.list();
     
         return res.json(escalas);

@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 import { UserProvider } from './providers/UserContext.js'
 import { EscalasListProvider } from './providers/EscalasListContext.js'
+import { ProfessoresListProvider } from './providers/ProfessoresListContext.js'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -11,7 +12,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 
         <UserProvider>
           <EscalasListProvider>
-            <App />  
+            <ProfessoresListProvider>
+              <App />  
+            </ProfessoresListProvider>
           </EscalasListProvider>
         </UserProvider>
 

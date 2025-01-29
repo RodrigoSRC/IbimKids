@@ -24,7 +24,9 @@ export const AddEscalaModal = ({ toggleModalEscala, setIsOpenAddEscala }: ModalA
   const { addEscala } = useContext(EscalasListContext)
 
   const createEscala = async (data: TEscalaSchema) => {
+    console.log("data")
     addEscala(data)
+    console.log(data)
     setIsOpenAddEscala(false)
   }
 
@@ -56,7 +58,7 @@ export const AddEscalaModal = ({ toggleModalEscala, setIsOpenAddEscala }: ModalA
                 {...register("data_escala")} 
                 error={errors.data_escala as { message: string } | undefined}/>   
 
-              {/* <Input 
+              <Input 
                 title="Turno"
                 as="select" // Mudando de input para select
                 {...register("data_turno")}
@@ -66,7 +68,7 @@ export const AddEscalaModal = ({ toggleModalEscala, setIsOpenAddEscala }: ModalA
                 <option value="MANHA">Manhã</option>
                 <option value="TARDE">Tarde</option>
                 <option value="NOITE">Noite</option>
-              </Input> */}
+              </Input>
   
 
               <Input 

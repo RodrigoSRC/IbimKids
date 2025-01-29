@@ -62,9 +62,7 @@ export const HomePage = () => {
     useEffect(() => {
         (
             async () => {
-                console.log(1)
                 const responseEscalas = await api.get("/escalas");
-                console.log(2)
                 setEscalas(responseEscalas.data);
 
                 const responseProf = await api.get("/professores");
@@ -82,8 +80,6 @@ export const HomePage = () => {
     const toggleModalAddProf = () => setIsOpenAddProf(!isOpenAddProf)
     const toggleModalEditProf = () => setIsOpenEditProf(!isOpenEditProf)
     const toggleModalRemoveProf = () => setIsOpenRemoveProf(!isOpenRemoveProf)
-
-
 
     const toggleModalEditUser = () => setIsOpenEditUser(!isOpenEditUser)
     const toggleModalRemoveUser = () => setIsOpenRemoveUser(!isOpenRemoveUser)
@@ -149,17 +145,15 @@ export const HomePage = () => {
                         {renderEscalas(escalas)}
                     </ul>
 
-                    {/* <section>
-                        <StyledTitle>Atualmente 
-                            <span>{professores.length}</span> 
-                        professores</StyledTitle>
+                    <section>
+                        <StyledTitle>Atualmente <span>{professores.length}</span> professores</StyledTitle>
 
                         <FaPlusCircle style={{ width: '20px', height: '20px', cursor: 'pointer'}} type="button" onClick={toggleModalAddEscala}/>
 
                     </section>
                     <ul>
                         {renderProfessores(professores)}
-                    </ul> */}
+                    </ul>
 
                 </div>
 
