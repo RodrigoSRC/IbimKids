@@ -24,9 +24,8 @@ export const AddEscalaModal = ({ toggleModalEscala, setIsOpenAddEscala }: ModalA
   const { addEscala } = useContext(EscalasListContext)
 
   const createEscala = async (data: TEscalaSchema) => {
-    console.log("data")
+    console.log("addModal")
     addEscala(data)
-    console.log(data)
     setIsOpenAddEscala(false)
   }
 
@@ -50,6 +49,14 @@ export const AddEscalaModal = ({ toggleModalEscala, setIsOpenAddEscala }: ModalA
                 placeholder="Digite aqui a faixa etária" 
                 {...register("faixa_etaria")} 
                 error={errors.faixa_etaria as { message: string } | undefined}/>
+
+              <Input 
+                id="limite"
+                title="Limite" 
+                type="text" 
+                placeholder="Digite aqui o limite" 
+                {...register("limite")} 
+                error={errors.limite as { message: string } | undefined}/>
 
               <Input 
                 title="Data" 

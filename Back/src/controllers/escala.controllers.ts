@@ -6,7 +6,6 @@ import { TEscalaUpdateRequest } from "../interfaces/escalas.interfaces";
 class EscalaController {
     constructor(private escalaServices: EscalaService) {}
     async create(req: Request, res: Response) {
-        // const clientId = res.locals.clientId
         
         const newEscala = await this.escalaServices.create(req.body)
 

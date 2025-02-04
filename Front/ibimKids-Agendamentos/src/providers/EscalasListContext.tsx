@@ -62,7 +62,6 @@ export const EscalasListProvider = ({ children }:EscalaProviderProps) => {
 
       try {
         const { data } = await api.get("/escalas");
-        console.log(data)
         setEscalas(data);
       } catch (error) {
         console.log(error);
@@ -80,7 +79,7 @@ export const EscalasListProvider = ({ children }:EscalaProviderProps) => {
         ...formData,
       };
 
-      toast.success("Contato criado com sucesso", {
+      toast.success("Escala criada com sucesso", {
         theme: "dark",
         autoClose: 1500,
       });
@@ -92,6 +91,8 @@ export const EscalasListProvider = ({ children }:EscalaProviderProps) => {
       });
 
       setEscalas((escalas) => [...escalas, data]);
+      console.log(data)
+      console.log(escalas)
     } catch (error) {
       console.log(error);
     }
@@ -101,7 +102,7 @@ export const EscalasListProvider = ({ children }:EscalaProviderProps) => {
     try {
       const token = localStorage.getItem("@TOKEN");
 
-      toast.success("Contato deletado com sucesso", {
+      toast.success("Escala deletada com sucesso", {
         theme: "dark",
         autoClose: 1500,
       });

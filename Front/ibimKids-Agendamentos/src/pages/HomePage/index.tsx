@@ -63,6 +63,7 @@ export const HomePage = () => {
         (
             async () => {
                 const responseEscalas = await api.get("/escalas");
+                console.log(responseEscalas.data)
                 setEscalas(responseEscalas.data);
 
                 const responseProf = await api.get("/professores");
@@ -148,7 +149,7 @@ export const HomePage = () => {
                     <section>
                         <StyledTitle>Atualmente <span>{professores.length}</span> professores</StyledTitle>
 
-                        <FaPlusCircle style={{ width: '20px', height: '20px', cursor: 'pointer'}} type="button" onClick={toggleModalAddEscala}/>
+                        <FaPlusCircle style={{ width: '20px', height: '20px', cursor: 'pointer'}} type="button" onClick={toggleModalAddProf}/>
 
                     </section>
                     <ul>

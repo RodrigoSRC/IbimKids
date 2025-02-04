@@ -13,6 +13,7 @@ import { AppError } from "../errors/AppError";
 export class EscalaService {
     
     async create(data: TEscalaRequest ): Promise<TEscalaResponse> {
+
         const {nome, data_escala, data_turno, professorIds} = data
         const escalaRepository = AppDataSource.getRepository(Escala)
         const professorRepository = AppDataSource.getRepository(Professor)
@@ -42,13 +43,21 @@ export class EscalaService {
 
 
         // const professores = await professorRepository.findByIds(professorIds);
+        // const professores = await professorRepository.findBy({
+        //     id: In(professorIds!),
+        // });
         const professores = await professorRepository.findBy({
-            id: In(professorIds),
+            id: In(professorIds ?? []), // Se for undefined, usa um array vazio
         });
         
-        if (professores.length !== professorIds.length) {
-            throw new AppError("Um ou mais professores não foram encontrados", 404);
-        }
+        
+        // if (professores.length !== professorIds!.length) {
+        //     throw new AppError("Um ou mais professores não foram encontrados", 404);
+        // }
+        // if (!Array.isArray(professorIds) || professores.length !== professorIds.length) {
+        //     throw new AppError("Um ou mais professores não foram encontrados", 404);
+        // }
+        
 
         const limite = professores.length * 15;
 
@@ -64,20 +73,8 @@ export class EscalaService {
         return escalaSchemaResponse.parse(escala)
     }
 
-    // async list(escalaId: string) {
-    //     const agendaRepository = AppDataSource.getRepository(Escala)
-    //     const escala = await agendaRepository.findOneBy({ id: escalaId })
-
-    //     if (!escala) {
-    //         throw new AppError("Escala não encontrada", 404)
-    //     }
-    
-    //     return escalaSchemaResponse.parse(escala)
-    // }
-
     async list() {
         const escalaRepository = AppDataSource.getRepository(Escala);
-        console.log("service")
     
         // Busca todas as escalas, incluindo os professores relacionados
         const escalas = await escalaRepository.find(
