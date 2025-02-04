@@ -77,6 +77,7 @@ export const EditEscalaModal = ({ toggleModalEscala, setIsOpenEdit, escalaId  }:
               <Input 
                 title="Data" 
                 type="date" 
+                min={new Date().toISOString().split("T")[0]} 
                 defaultValue={currentEscala!.data_escala}
                 placeholder="Digite aqui a data da escala" 
                 {...register("data_escala")} 

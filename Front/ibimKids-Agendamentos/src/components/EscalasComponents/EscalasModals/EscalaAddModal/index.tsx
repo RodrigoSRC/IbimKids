@@ -60,6 +60,7 @@ export const AddEscalaModal = ({ toggleModalEscala, setIsOpenAddEscala }: ModalA
               <Input 
                 title="Data" 
                 type="date" 
+                min={new Date().toISOString().split("T")[0]} 
                 placeholder="Digite aqui a data da escala" 
                 {...register("data_escala")} 
                 error={errors.data_escala as { message: string } | undefined}/>   

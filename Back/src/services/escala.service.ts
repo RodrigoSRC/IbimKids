@@ -20,6 +20,13 @@ export class EscalaService {
 
         const turnoEnum = data_turno as Turno;
 
+        const hoje = new Date();
+        const dataEscala = new Date(data_escala);
+    
+        if (dataEscala < hoje) {
+            throw new AppError("Não é possível agendar uma data passada", 400);
+        }
+
         const findEscala = await escalaRepository.findOne({
             where: {
                 nome
