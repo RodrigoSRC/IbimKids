@@ -3,13 +3,13 @@ import { verify } from "jsonwebtoken";
 
 export const ensureAuthMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization
-    console.log(req.headers.authorization + "é isso kray")
+    // console.log(req.headers.authorization + "é isso kray")
     // console.log(req)
     
 
     if (!token) {
         return res.status(401).json({
-            message: "token inválido 1"
+            message: "token inválido"
         })
     }
 

@@ -47,18 +47,6 @@ export const EscalasListProvider = ({ children }:EscalaProviderProps) => {
 
   useEffect(() => {
     const getEscalasToList = async () => {
-      // const token = localStorage.getItem("@TOKEN")
-
-      // if (token) {
-      //   api.defaults.headers.common.Authorization = `Bearer ${token}`
-      // }
-      // const token = localStorage.getItem("@TOKEN");
-      // if (!token) {
-      //   console.error("Token ausente");
-      // }
-      // else{
-      //   console.log(token)
-      // }
 
       try {
         const { data } = await api.get("/escalas");
@@ -79,11 +67,6 @@ export const EscalasListProvider = ({ children }:EscalaProviderProps) => {
         ...formData,
       };
 
-      toast.success("Escala criada com sucesso", {
-        theme: "dark",
-        autoClose: 1500,
-      });
-
       const { data } = await api.post("/escalas", newEscala, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -91,21 +74,29 @@ export const EscalasListProvider = ({ children }:EscalaProviderProps) => {
       });
 
       setEscalas((escalas) => [...escalas, data]);
-      console.log(data)
-      console.log(escalas)
-    } catch (error) {
-      console.log(error);
+
+      toast.success("Escala criada com sucesso", {
+        theme: "dark",
+        autoClose: 1500,
+      });
+
+    } catch (error: any) {
+      console.error(error);
+
+      const errorMessage =
+      error.response?.data?.message ||
+      "Erro ao criar escala. Tente novamente.";
+
+    toast.error(errorMessage, {
+      theme: "dark",
+      autoClose: 2000,
+    });
     }
   };
 
   const deleteEscala = async (escalaId: string) => {
     try {
       const token = localStorage.getItem("@TOKEN");
-
-      toast.success("Escala deletada com sucesso", {
-        theme: "dark",
-        autoClose: 1500,
-      });
 
       await api.delete(`/escalas/${escalaId}`
       , 
@@ -118,13 +109,29 @@ export const EscalasListProvider = ({ children }:EscalaProviderProps) => {
 
       setEscalas((escalaList) => escalaList.filter((escala) => escala.id !== escalaId));
 
-    } catch (error) {
-      console.log(error);
+      toast.success("Escala deletada com sucesso", {
+        theme: "dark",
+        autoClose: 1500,
+      });
+
+    } catch (error: any) {
+      console.error(error);
+
+      const errorMessage =
+      error.response?.data?.message ||
+      "Erro ao deletar escala. Tente novamente.";
+
+    toast.error(errorMessage, {
+      theme: "dark",
+      autoClose: 2000,
+    });
     }
   };
 
   const editEscala = async (formData: FormData, escalaId: string) => {
     try {
+
+      console.log("edit")
       const token = localStorage.getItem("@TOKEN");
 
       const newEscala = {
@@ -132,10 +139,6 @@ export const EscalasListProvider = ({ children }:EscalaProviderProps) => {
         ...formData,
       };
 
-      toast.success("Escala editada com sucesso", {
-        theme: "dark",
-        autoClose: 1500,
-      });
 
       const { data } = await api.patch(`/escalas/${escalaId}`, newEscala, {
         headers: {
@@ -147,8 +150,23 @@ export const EscalasListProvider = ({ children }:EscalaProviderProps) => {
         escalas.map((escala) => escala.id === escalaId ? { ...escala, ...data } : escala
         )
       );
-    } catch (error) {
-      console.log(error);
+
+      toast.success("Escala editada com sucesso", {
+        theme: "dark",
+        autoClose: 1500,
+      });
+      
+    } catch (error: any) {
+      console.error(error);
+
+      const errorMessage =
+      error.response?.data?.message ||
+      "Erro ao editar escala. Tente novamente.";
+
+    toast.error(errorMessage, {
+      theme: "dark",
+      autoClose: 2000,
+    });
     }
   };
   

@@ -27,6 +27,7 @@ export const EditEscalaModal = ({ toggleModalEscala, setIsOpenEdit, escalaId  }:
 
 
   const onSubmit = async (data: TEscalaSchema, e: any) => {
+    console.log("ue")
     e.preventDefault()
     try {
       await editEscala(data, escalaId);
@@ -42,7 +43,7 @@ export const EditEscalaModal = ({ toggleModalEscala, setIsOpenEdit, escalaId  }:
 
           <Form onSubmit={handleSubmit(onSubmit)}>
 
-            <StyledTitle>Edite o contato</StyledTitle>
+            <StyledTitle>Edite a escala</StyledTitle>
               <Input 
                 title="Nome" 
                 type="text" 
@@ -60,25 +61,50 @@ export const EditEscalaModal = ({ toggleModalEscala, setIsOpenEdit, escalaId  }:
                 defaultValue={currentEscala!.faixa_etaria}
                 placeholder="Digite aqui a faixa etária" 
                 {...register("faixa_etaria")} 
-                error={errors.faixa_etaria as { message: string } | undefined}/>
+                error={errors.faixa_etaria as { message: string } | undefined}/>   
+
 
               <Input 
-                title="Data da Escala" 
-                type="data_escala" 
+                id="limite"
+                title="Limite" 
+                type="text" 
+                defaultValue={currentEscala!.limite}
+                placeholder="Digite aqui o limite" 
+                {...register("limite")} 
+                error={errors.limite as { message: string } | undefined}/>
+
+
+              <Input 
+                title="Data" 
+                type="date" 
                 defaultValue={currentEscala!.data_escala}
                 placeholder="Digite aqui a data da escala" 
                 {...register("data_escala")} 
-                error={errors.data_escala as { message: string } | undefined}/>   
+                error={errors.data_escala as { message: string } | undefined}/> 
+
 
               <Input 
-                title="Turno da escala" 
-                type="data_turno" 
+                title="Turno"
+                as="select" // Mudando de input para select
                 defaultValue={currentEscala!.data_turno}
-                placeholder="Digite aqui o turno da escala" 
-                {...register("data_turno")} 
-                error={errors.data_turno as { message: string } | undefined}/>   
+                {...register("data_turno")}
+                error={errors.data_turno as { message: string } | undefined}
+              >
+                {/* <option value="">Selecione o turno</option> */}
+                <option value="MANHA">Manhã</option>
+                <option value="TARDE">Tarde</option>
+                <option value="NOITE">Noite</option>
+              </Input>
+  
 
-              <StyledButton type="submit">Editar contato</StyledButton>
+              <Input 
+                title="Descricao" 
+                type="text" 
+                placeholder="Alguma observação? Coloque aqui uma descrição" 
+                {...register("descricao")} 
+                error={errors.descricao as { message: string } | undefined}/>   
+
+              <StyledButton type="submit">Editar escala</StyledButton>
           </Form>
       </Modal>
   )

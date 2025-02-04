@@ -24,7 +24,6 @@ export const AddEscalaModal = ({ toggleModalEscala, setIsOpenAddEscala }: ModalA
   const { addEscala } = useContext(EscalasListContext)
 
   const createEscala = async (data: TEscalaSchema) => {
-    console.log("addModal")
     addEscala(data)
     setIsOpenAddEscala(false)
   }
