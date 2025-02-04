@@ -63,7 +63,6 @@ export const HomePage = () => {
         (
             async () => {
                 const responseEscalas = await api.get("/escalas");
-                console.log(responseEscalas.data)
                 setEscalas(responseEscalas.data);
 
                 const responseProf = await api.get("/professores");

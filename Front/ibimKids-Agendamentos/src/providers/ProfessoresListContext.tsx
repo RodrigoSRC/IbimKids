@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect } from "react";
 import { api } from "../services/api";
 import { Professor } from "../pages/HomePage";
 import { toast } from "react-toastify"
+import { da } from "date-fns/locale";
 
 interface FormData {
   nome: string;
@@ -42,8 +43,10 @@ export const ProfessoresListProvider = ({ children }:ProfessorProviderProps) => 
  
   useEffect(() => {
     const getProfessoresToList = async () => {
+
       try {
         const { data } = await api.get("/professores");
+        
         setProfessores(data);
       } catch (error) {
         console.log(error);

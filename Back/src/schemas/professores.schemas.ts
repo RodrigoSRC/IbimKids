@@ -4,16 +4,15 @@ const profSchema = z.object({
     id: z.string(),
     nome: z.string(),
     telefone: z.string(),
-    dataRegistrada: z.string()
+    data_registrada: z.string()
 })
 
 const profSchemaRequest = profSchema.omit({
     id: true,
-    dataRegistrada: true
+    data_registrada: true
 })
 
 const profSchemaResponse = profSchema.omit({
-    // password: true
 })
 
 const profsSchemaResponse = z.array(profSchemaResponse)
