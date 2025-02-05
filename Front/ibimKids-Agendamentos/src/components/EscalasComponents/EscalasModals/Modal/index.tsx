@@ -21,7 +21,7 @@ export const Modal = ({ toggleModal, children, blockClosing }: ModalProps) => {
                 return
             }
 
-            if (!ref.current.contains(event.target as HTMLElement)) {
+            if (!blockClosing && !ref.current.contains(event.target as HTMLElement)) {
                 toggleModal()
             }
         }
@@ -31,7 +31,7 @@ export const Modal = ({ toggleModal, children, blockClosing }: ModalProps) => {
         return () => {
             window.removeEventListener("mousedown", handleClick)
         }
-    }, [toggleModal])
+    }, [toggleModal, blockClosing])
 
     return createPortal(
         <Container>

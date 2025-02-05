@@ -47,23 +47,11 @@ export class EscalaService {
         if (findEscalaTurno) {
             throw new AppError("Já existe uma escala para este dia e turno", 400);
         }
-
-
-        // const professores = await professorRepository.findByIds(professorIds);
-        // const professores = await professorRepository.findBy({
-        //     id: In(professorIds!),
-        // });
+        
         const professores = await professorRepository.findBy({
             id: In(professorIds ?? []), // Se for undefined, usa um array vazio
         });
         
-        
-        // if (professores.length !== professorIds!.length) {
-        //     throw new AppError("Um ou mais professores não foram encontrados", 404);
-        // }
-        // if (!Array.isArray(professorIds) || professores.length !== professorIds.length) {
-        //     throw new AppError("Um ou mais professores não foram encontrados", 404);
-        // }
         
 
         const limite = professores.length * 15;
@@ -85,10 +73,11 @@ export class EscalaService {
     
         // Busca todas as escalas, incluindo os professores relacionados
         const escalas = await escalaRepository.find(
-        //     {
-        //     relations: ["professores"], // Caso precise trazer os professores associados
-        // }
+            {
+            relations: ["professores"], // Caso precise trazer os professores associados
+        }
     );
+    console.log(escalas)
     
         // Valida e transforma os dados antes de retornar
         return escalas.map((escala) => escalaSchemaResponse.parse(escala));

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useContext } from "react"
+import { Dispatch, SetStateAction, useContext, useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { TEscalaSchema, escalaSchema } from "./schema"
@@ -8,26 +8,55 @@ import { Form } from "./style"
 import { Input } from "../../../RegisterForm/Input"
 import { StyledButton } from "../../../Button/Button";
 import { StyledTitle } from "../../../../styles/typography"
+import { api }from "../../../../services/api";
+import {
+  TagPicker
+} from 'rsuite';
+import 'rsuite/dist/rsuite.min.css';
 
 
 interface ModalEditTaskProps {
-  toggleModalEscala: () => void;
+    toggleModalEscala: () => void;
     setIsOpenEdit: Dispatch<SetStateAction<boolean>>;
     escalaId: string;
   }
 
+  interface Professor {
+    id: string;
+    nome: string;
+    telefone: string;
+    data_registrada: string;
+  }
 
 export const EditEscalaModal = ({ toggleModalEscala, setIsOpenEdit, escalaId  }: ModalEditTaskProps) => {
-  const { register, handleSubmit, formState: {errors}   } = useForm<TEscalaSchema>({
-    resolver: zodResolver(escalaSchema)
+  const { register, handleSubmit, formState: {errors}, setValue   } = useForm<TEscalaSchema>({
+    resolver: zodResolver(escalaSchema), mode: "onChange"
 })
   const { editEscala, escalas } = useContext(EscalasListContext)
+  const [professores, setProfessores] = useState<Professor[]>([]);
+    const [professorIds, setProfessorIds] = useState<string[]>([]);
+    const [isTagPickerOpen, setIsTagPickerOpen] = useState(false); 
+
+
+      useEffect(() => {
+        const fetchProfessores = async () => {
+          try {
+            const { data } = await api.get("/professores");
+            setProfessores(data);
+    
+          } catch (error) {
+            console.error("Erro ao buscar professores:", error);
+          }
+        };
+    
+        fetchProfessores();
+      }, []);
 
   const currentEscala = escalas.find(escala => escala.id === escalaId)
+  console.log(currentEscala)
 
 
   const onSubmit = async (data: TEscalaSchema, e: any) => {
-    console.log("ue")
     e.preventDefault()
     try {
       await editEscala(data, escalaId);
@@ -39,7 +68,7 @@ export const EditEscalaModal = ({ toggleModalEscala, setIsOpenEdit, escalaId  }:
 
 
   return (
-      <Modal toggleModal={toggleModalEscala}>
+      <Modal toggleModal={toggleModalEscala} blockClosing={isTagPickerOpen}>
 
           <Form onSubmit={handleSubmit(onSubmit)}>
 
@@ -82,6 +111,31 @@ export const EditEscalaModal = ({ toggleModalEscala, setIsOpenEdit, escalaId  }:
                 placeholder="Digite aqui a data da escala" 
                 {...register("data_escala")} 
                 error={errors.data_escala as { message: string } | undefined}/> 
+
+
+            <TagPicker
+                  size="lg"
+                  
+                  block
+                  data={professores.map(prof => ({ label: prof.nome, value: prof.id }
+                  )
+                )
+              
+              } // Ajuste do formato
+                  value={professorIds}
+                  onChange={(values) => {
+                    console.log("true")
+                    setProfessorIds(values); 
+                    // Atualiza o estado local
+                    setValue("professorIds", values); 
+                    setIsOpenEdit(true);
+                    // Atualiza no formulário
+                  }}
+                  onOpen={() => setIsTagPickerOpen(true)}  // Quando abrir, bloqueia fechamento
+                  onClose={() => setIsTagPickerOpen(false)} // Quando fechar, libera fechamento
+                  placeholder="Professores"
+                
+              />
 
 
               <Input 

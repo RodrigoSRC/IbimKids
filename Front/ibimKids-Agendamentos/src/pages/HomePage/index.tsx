@@ -26,7 +26,8 @@ import { FaTrashAlt } from "react-icons/fa";
 
 import { StyledLogo } from "../../styles/typography";
 import { ProfessoresListContext } from "../../providers/ProfessoresListContext";
-
+import { TagPicker } from "rsuite";
+import 'rsuite/dist/rsuite.min.css';
 
 export interface Escala {
     id: string;
@@ -115,6 +116,20 @@ export const HomePage = () => {
 
     return(
         <StyledContainer>
+                    {/* <TagPicker
+            size="sm"
+            block
+            data={professores.map(prof => ({ label: prof.nome, value: prof.id }))} // Ajuste do formato
+            value={professorIds}
+            onChange={(values) => {
+              setProfessorIds(values); 
+              // Atualiza o estado local
+              setValue("professorIds", values); 
+              // Atualiza no formulário
+            }}
+            placeholder="Professores"
+          /> */}
+            
             <div className="formBox">
 
                 <div className="navBar">
@@ -144,6 +159,7 @@ export const HomePage = () => {
                     <ul>
                         {renderEscalas(escalas)}
                     </ul>
+
 
                     <section>
                         <StyledTitle>Atualmente <span>{professores.length}</span> professores</StyledTitle>
