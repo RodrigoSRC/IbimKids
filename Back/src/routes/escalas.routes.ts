@@ -12,6 +12,8 @@ escalaRoutes.post("", ensureDataIsValidMiddleware(escalaSchemaRequest), (req, re
 
 escalaRoutes.get("", (req, res) => escalaController.list(req, res))
 
+escalaRoutes.get("/:id", (req, res) => escalaController.find(req, res))
+
 escalaRoutes.patch("/:id", ensureDataIsValidMiddleware(escalaSchemaRequest),
 (req, res) => escalaController.update(req, res))
 

@@ -10,6 +10,8 @@ interface FormData {
   limite: string;
   data_escala: string;
   data_turno: string;
+  // professorIds: string;
+  // professores: [];
 }
 
 
@@ -50,6 +52,7 @@ export const EscalasListProvider = ({ children }:EscalaProviderProps) => {
 
       try {
         const { data } = await api.get("/escalas");
+        
         setEscalas(data);
       } catch (error) {
         console.log(error);
@@ -131,7 +134,6 @@ export const EscalasListProvider = ({ children }:EscalaProviderProps) => {
   const editEscala = async (formData: FormData, escalaId: string) => {
     try {
 
-      console.log("edit")
       const token = localStorage.getItem("@TOKEN");
 
       const newEscala = {

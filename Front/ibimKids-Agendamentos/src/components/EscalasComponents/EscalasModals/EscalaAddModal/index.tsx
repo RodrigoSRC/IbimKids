@@ -70,16 +70,10 @@ export const AddEscalaModal = ({ toggleModalEscala, setIsOpenAddEscala }: ModalA
 
         <TagPicker
             size="lg"
-            
             block
-            data={professores.map(prof => ({ label: prof.nome, value: prof.id }
-            )
-          )
-         
-        } // Ajuste do formato
+            data={professores.map(prof => ({ label: prof.nome, value: prof.id }))} // Ajuste do formato
             value={professorIds}
             onChange={(values) => {
-              console.log("true")
               setProfessorIds(values); 
               // Atualiza o estado local
               setValue("professorIds", values); 

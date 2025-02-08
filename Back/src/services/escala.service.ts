@@ -77,10 +77,23 @@ export class EscalaService {
             relations: ["professores"], // Caso precise trazer os professores associados
         }
     );
-    console.log(escalas)
     
         // Valida e transforma os dados antes de retornar
         return escalas.map((escala) => escalaSchemaResponse.parse(escala));
+    }
+
+    async find(escalaId: string) {
+        const escalaRepository = AppDataSource.getRepository(Escala);
+    
+        // Busca todas as escalas, incluindo os professores relacionados
+        const escala = await escalaRepository.findOne({
+            where: { id: escalaId },
+            relations: ["professores"], // Carrega também os professores associados
+        });
+    
+        // Valida e transforma os dados antes de retornar
+        // return escalas.map((escala) => escalaSchemaResponse.parse(escala));
+        return escala
     }
     
 

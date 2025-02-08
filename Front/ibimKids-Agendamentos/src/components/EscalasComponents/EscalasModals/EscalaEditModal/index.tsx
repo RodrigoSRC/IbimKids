@@ -13,6 +13,7 @@ import {
   TagPicker
 } from 'rsuite';
 import 'rsuite/dist/rsuite.min.css';
+import { ProfessoresListContext } from "../../../../providers/ProfessoresListContext"
 
 
 interface ModalEditTaskProps {
@@ -33,27 +34,41 @@ export const EditEscalaModal = ({ toggleModalEscala, setIsOpenEdit, escalaId  }:
     resolver: zodResolver(escalaSchema), mode: "onChange"
 })
   const { editEscala, escalas } = useContext(EscalasListContext)
-  const [professores, setProfessores] = useState<Professor[]>([]);
+  const {professores} = useContext(ProfessoresListContext)
     const [professorIds, setProfessorIds] = useState<string[]>([]);
     const [isTagPickerOpen, setIsTagPickerOpen] = useState(false); 
-
-
-      useEffect(() => {
-        const fetchProfessores = async () => {
-          try {
-            const { data } = await api.get("/professores");
-            setProfessores(data);
     
+      useEffect(() => {
+        const fetchEscala = async () => {
+          if (!escalaId) return;
+      
+          try {
+            const { data } = await api.get(`/escalas/${escalaId}`);
+      
+            setValue("nome", data.nome);
+            setValue("faixa_etaria", data.faixa_etaria);
+            setValue("limite", data.limite);
+            setValue("data_escala", data.data_escala);
+            setValue("data_turno", data.data_turno);
+            setValue("descricao", data.descricao);
+      
+            // Ajustando professores
+            const escalaProfessoresIds = data.professores.map((prof: Professor) => prof.id);
+            // console.log(escalaProfessoresIds)
+            setProfessorIds(escalaProfessoresIds);
+            setValue("professorIds", escalaProfessoresIds);
           } catch (error) {
-            console.error("Erro ao buscar professores:", error);
+            console.error("Erro ao buscar escala:", error);
           }
         };
-    
-        fetchProfessores();
-      }, []);
+      
+        fetchEscala();
+      }, [escalaId, setValue]);
+      
+      
 
   const currentEscala = escalas.find(escala => escala.id === escalaId)
-  console.log(currentEscala)
+  // console.log(currentEscala)
 
 
   const onSubmit = async (data: TEscalaSchema, e: any) => {
@@ -73,6 +88,20 @@ export const EditEscalaModal = ({ toggleModalEscala, setIsOpenEdit, escalaId  }:
           <Form onSubmit={handleSubmit(onSubmit)}>
 
             <StyledTitle>Edite a escala</StyledTitle>
+              <TagPicker
+                size="lg"
+                block
+                data={professores.map(prof => ({ label: prof.nome, value: prof.id }))}
+                value={professorIds} // Define os professores selecionados
+                onChange={(values) => {
+                  setProfessorIds(values); 
+                  setValue("professorIds", values);
+                }}
+                onOpen={() => setIsTagPickerOpen(true)}
+                onClose={() => setIsTagPickerOpen(false)}
+                placeholder="Professores"
+              />
+
               <Input 
                 title="Nome" 
                 type="text" 
@@ -111,31 +140,6 @@ export const EditEscalaModal = ({ toggleModalEscala, setIsOpenEdit, escalaId  }:
                 placeholder="Digite aqui a data da escala" 
                 {...register("data_escala")} 
                 error={errors.data_escala as { message: string } | undefined}/> 
-
-
-            <TagPicker
-                  size="lg"
-                  
-                  block
-                  data={professores.map(prof => ({ label: prof.nome, value: prof.id }
-                  )
-                )
-              
-              } // Ajuste do formato
-                  value={professorIds}
-                  onChange={(values) => {
-                    console.log("true")
-                    setProfessorIds(values); 
-                    // Atualiza o estado local
-                    setValue("professorIds", values); 
-                    setIsOpenEdit(true);
-                    // Atualiza no formulário
-                  }}
-                  onOpen={() => setIsTagPickerOpen(true)}  // Quando abrir, bloqueia fechamento
-                  onClose={() => setIsTagPickerOpen(false)} // Quando fechar, libera fechamento
-                  placeholder="Professores"
-                
-              />
 
 
               <Input 
