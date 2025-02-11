@@ -26,6 +26,7 @@ import { FaTrashAlt } from "react-icons/fa";
 
 import { StyledLogo } from "../../styles/typography";
 import { ProfessoresListContext } from "../../providers/ProfessoresListContext";
+import { AgendamentosListContext } from "../../providers/AgendamentosListContext";
 
 export interface Escala {
     id: string;
@@ -43,12 +44,21 @@ export interface Professor {
     telefone: string;
 }
 
+export interface Agendamento {
+    id: string;
+    crianca_nome: string;
+    crianca_idade: string;
+    responsavel_nome: string;
+    telefone: string;
+    observacao: string;
+}
+
 
 export const HomePage = () => {
     const { user, userLogout, isOpenEditUser, setIsOpenEditUser, setIsOpenRemoveUser, isOpenRemoveUser } = useContext(UserContext)
     const { escalas, setEscalas, setIsOpenAddEscala, setIsOpenEditEscala, isOpenAddEscala, isOpenEditEscala, isOpenRemoveEscala, setIsOpenRemoveEscala } = useContext(EscalasListContext)
-
     const { professores, setProfessores, setIsOpenAddProf, setIsOpenEditProf, isOpenAddProf, isOpenEditProf, isOpenRemoveProf, setIsOpenRemoveProf } = useContext(ProfessoresListContext)
+    const { agendamentos, setAgendamentos } = useContext(AgendamentosListContext)
 
     const [editingEscalaId, setEditingEscalaId] = useState<string | null>(null);
     const [removingEscalaId, setRemovingEscalaId] = useState<string | null>(null);
@@ -66,6 +76,10 @@ export const HomePage = () => {
 
                 const responseProf = await api.get("/professores");
                 setProfessores(responseProf.data);
+
+                const responseAgendamento = await api.get("/agendamentos")
+                console.log(responseAgendamento.data)
+                setAgendamentos(responseAgendamento.data)
 
             }
         )()
@@ -110,6 +124,10 @@ export const HomePage = () => {
     const renderProfessores = (professoresToRender: Professor[]) => professoresToRender.map(professor => <CardProfessor key={professor.id} professor={professor} 
         editProfessor={() => handleEditProfessor(professor)} removeProfessor={() => handleRemoveProfessor(professor)
         }/>)
+        
+    // const renderAgendamentos = (agendamentosToRender: Professor[]) => agendamentosToRender.map(agendamento => <CardAgendamento key={agendamento.id} professor={agendamento} 
+    //     editProfessor={() => handleEditProfessor(agendamento)} removeAgendamento={() => handleRemoveProfessor(agendamento)
+    //     }/>)
 
 
     return(
@@ -155,6 +173,16 @@ export const HomePage = () => {
                     <ul>
                         {renderProfessores(professores)}
                     </ul>
+
+                    {/* <section>
+                        <StyledTitle>Atualmente <span>{agendamentos.length}</span> professores</StyledTitle>
+
+                        <FaPlusCircle style={{ width: '20px', height: '20px', cursor: 'pointer'}} type="button" onClick={toggleModalAddProf}/>
+
+                    </section> */}
+                    {/* <ul>
+                        {renderAgendamentos(agendamentos)}
+                    </ul> */}
 
                 </div>
 

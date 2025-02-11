@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect } from "react";
 import { api } from "../services/api";
 import { Professor } from "../pages/HomePage";
 import { toast } from "react-toastify"
-import { da } from "date-fns/locale";
+// import { da } from "date-fns/locale";
 
 interface FormData {
   nome: string;

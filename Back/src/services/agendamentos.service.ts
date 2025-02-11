@@ -11,6 +11,7 @@ export class AgendamentoService {
     
     async create(data: TAgendamentoRequest ): Promise<TAgendamentoResponse> {
         const { crianca_nome, escalaId } = data
+        // console.log(data)
 
         const escalaRepository = AppDataSource.getRepository(Escala)
         const agendaRepository = AppDataSource.getRepository(Agendamento)
@@ -45,9 +46,28 @@ export class AgendamentoService {
         return agendamentoSchemaResponse.parse(agenda)
     }
 
-    async list(agendaId: string) {
+    async list() {
+        console.log("service")
+        const agendaRepository = AppDataSource.getRepository(Agendamento);
+    
+        // Busca todas as escalas, incluindo os professores relacionados
+        const agendamentos = await agendaRepository.find(
+            {
+            relations: ["escala"], // Caso precise trazer os professores associados
+        }
+    );
+    console.log(agendamentos)
+    
+        // Valida e transforma os dados antes de retornar
+        return agendamentos.map((agendamento) => agendamentoSchemaResponse.parse(agendamento));
+    }
+
+    async find(agendaId: string) {
         const agendaRepository = AppDataSource.getRepository(Agendamento)
-        const agenda = await agendaRepository.findOneBy({ id: agendaId })
+        const agenda = await agendaRepository.findOne({
+            where: { id: agendaId },
+            relations: ["escala"], // Carrega também os professores associados
+        })
 
         if (!agenda) {
             throw new AppError("Agendamento não encontrado", 404)

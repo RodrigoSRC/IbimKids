@@ -41,7 +41,6 @@ export class ProfService {
     //     return profSchemaResponse.parse(prof)
     // }
     async list() {
-        console.log("prof service")
         const profRepository = AppDataSource.getRepository(Professor);
     
         // Busca todas as escalas, incluindo os professores relacionados
@@ -50,8 +49,6 @@ export class ProfService {
         //     relations: ["professores"], // Caso precise trazer os professores associados
         // }
     );
-
-    console.log(profs)
     
         // Valida e transforma os dados antes de retornar
         // return profs.map((prof) => profSchemaResponse.parse(profs));

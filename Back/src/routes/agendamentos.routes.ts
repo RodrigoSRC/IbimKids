@@ -10,7 +10,9 @@ agendamentoRoutes.post("", ensureDataIsValidMiddleware(profSchemaRequest), (req,
 
 agendamentoRoutes.use(ensureAuthMiddleware)
 
-agendamentoRoutes.get("/:id", (req, res) => agendamentoController.list(req, res))
+agendamentoRoutes.get("", (req, res) => agendamentoController.list(req, res))
+
+agendamentoRoutes.get("/:id", (req, res) => agendamentoController.find(req, res))
 
 agendamentoRoutes.patch("/:id", ensureDataIsValidMiddleware(profSchemaRequest),
 (req, res) => agendamentoController.update(req, res))

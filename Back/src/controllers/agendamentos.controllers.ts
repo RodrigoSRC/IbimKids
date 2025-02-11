@@ -13,10 +13,19 @@ class AgendamentoController {
     }
 
     async list(req: Request, res: Response) {
-        const agendaId = req.params.id as string
-        const agendas = await this.agendaServices.list(agendaId)
+        console.log("controller")
+        const escalas = await this.agendaServices.list();
+    
+        return res.json(escalas);
+    }
 
-        return res.json(agendas)
+    async find(req: Request, res: Response) {
+        // const findValues: TEscalaUpdateRequest = req.body
+        const agendaId = req.params.id
+
+        const agenda = await this.agendaServices.find(agendaId);
+    
+        return res.json(agenda);
     }
 
     async update(req: Request, res: Response) {
