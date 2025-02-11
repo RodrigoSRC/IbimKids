@@ -5,6 +5,7 @@ import App from './App'
 import { UserProvider } from './providers/UserContext.js'
 import { EscalasListProvider } from './providers/EscalasListContext.js'
 import { ProfessoresListProvider } from './providers/ProfessoresListContext.js'
+import { AgendamentosListProvider } from './providers/AgendamentosListContext.js'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -13,7 +14,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <UserProvider>
           <EscalasListProvider>
             <ProfessoresListProvider>
-              <App />  
+              <AgendamentosListProvider>
+                <App />  
+              </AgendamentosListProvider>
             </ProfessoresListProvider>
           </EscalasListProvider>
         </UserProvider>

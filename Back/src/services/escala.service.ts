@@ -70,15 +70,13 @@ export class EscalaService {
 
     async list() {
         const escalaRepository = AppDataSource.getRepository(Escala);
-    
-        // Busca todas as escalas, incluindo os professores relacionados
+
         const escalas = await escalaRepository.find(
             {
-            relations: ["professores"], // Caso precise trazer os professores associados
+            relations: ["professores"], 
         }
     );
     
-        // Valida e transforma os dados antes de retornar
         return escalas.map((escala) => escalaSchemaResponse.parse(escala));
     }
 

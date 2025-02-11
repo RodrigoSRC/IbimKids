@@ -3,10 +3,14 @@ import { api } from "../services/api";
 import { Agendamento } from "../pages/HomePage";
 import { toast } from "react-toastify"
 
-// interface FormData {
-//     nome: string;
-//     telefone: string;
-//   }
+interface FormData {
+    crianca_nome: string;
+    crianca_idade: string;
+    responsavel_nome: string;
+    telefone: string;
+    observacao: string;
+    // data_registrada: string;
+  }
 
 interface AgendamentosValues {
   agendamentos: Agendamento[];
@@ -37,6 +41,9 @@ export const AgendamentosListProvider = ({ children }:AgendamentoProviderProps) 
         const { data } = await api.get("/agendamentos");
         
         setAgendamentos(data);
+        console.log(agendamentos)
+        console.log(data)
+
       } catch (error) {
         console.log(error);
       }
@@ -138,13 +145,7 @@ export const AgendamentosListProvider = ({ children }:AgendamentoProviderProps) 
         setAgendamentos,
         addAgendamento,
         editAgendamento,
-        deleteAgendamento,
-        // isOpenAddAgendamento,
-        // setIsOpenAddAgendamento,
-        // isOpenEditProf,
-        // setIsOpenEditAgendamento,
-        // isOpenRemoveAgendamento, 
-        // setIsOpenRemoveProf,
+        deleteAgendamento
       }}
     >
       {children}

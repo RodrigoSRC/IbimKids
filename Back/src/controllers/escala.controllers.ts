@@ -19,7 +19,6 @@ class EscalaController {
     }
 
     async find(req: Request, res: Response) {
-        // const findValues: TEscalaUpdateRequest = req.body
         const escalaId = req.params.id
 
         const escala = await this.escalaServices.find(escalaId);

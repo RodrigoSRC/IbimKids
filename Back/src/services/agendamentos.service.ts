@@ -50,15 +50,13 @@ export class AgendamentoService {
         console.log("service")
         const agendaRepository = AppDataSource.getRepository(Agendamento);
     
-        // Busca todas as escalas, incluindo os professores relacionados
         const agendamentos = await agendaRepository.find(
             {
-            relations: ["escala"], // Caso precise trazer os professores associados
+            relations: ["escala"],
         }
     );
     console.log(agendamentos)
     
-        // Valida e transforma os dados antes de retornar
         return agendamentos.map((agendamento) => agendamentoSchemaResponse.parse(agendamento));
     }
 

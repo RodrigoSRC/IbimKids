@@ -125,9 +125,9 @@ export const HomePage = () => {
         editProfessor={() => handleEditProfessor(professor)} removeProfessor={() => handleRemoveProfessor(professor)
         }/>)
         
-    // const renderAgendamentos = (agendamentosToRender: Professor[]) => agendamentosToRender.map(agendamento => <CardAgendamento key={agendamento.id} professor={agendamento} 
-    //     editProfessor={() => handleEditProfessor(agendamento)} removeAgendamento={() => handleRemoveProfessor(agendamento)
-    //     }/>)
+    const renderAgendamentos = (agendamentosToRender: Professor[]) => agendamentosToRender.map(agendamento => <CardAgendamento key={agendamento.id} professor={agendamento} 
+        editProfessor={() => handleEditProfessor(agendamento)} removeAgendamento={() => handleRemoveProfessor(agendamento)
+        }/>)
 
 
     return(
@@ -174,12 +174,12 @@ export const HomePage = () => {
                         {renderProfessores(professores)}
                     </ul>
 
-                    {/* <section>
-                        <StyledTitle>Atualmente <span>{agendamentos.length}</span> professores</StyledTitle>
+                    <section>
+                        <StyledTitle>Atualmente <span>{agendamentos.length}</span> agendamentos</StyledTitle>
 
                         <FaPlusCircle style={{ width: '20px', height: '20px', cursor: 'pointer'}} type="button" onClick={toggleModalAddProf}/>
 
-                    </section> */}
+                    </section>
                     {/* <ul>
                         {renderAgendamentos(agendamentos)}
                     </ul> */}
