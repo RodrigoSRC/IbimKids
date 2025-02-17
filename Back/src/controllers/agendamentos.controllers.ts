@@ -13,7 +13,6 @@ class AgendamentoController {
     }
 
     async list(req: Request, res: Response) {
-        console.log("controller")
         const escalas = await this.agendaServices.list();
     
         return res.json(escalas);

@@ -11,7 +11,6 @@ export class AgendamentoService {
     
     async create(data: TAgendamentoRequest ): Promise<TAgendamentoResponse> {
         const { crianca_nome, escalaId } = data
-        // console.log(data)
 
         const escalaRepository = AppDataSource.getRepository(Escala)
         const agendaRepository = AppDataSource.getRepository(Agendamento)
@@ -47,7 +46,6 @@ export class AgendamentoService {
     }
 
     async list() {
-        console.log("service")
         const agendaRepository = AppDataSource.getRepository(Agendamento);
     
         const agendamentos = await agendaRepository.find(

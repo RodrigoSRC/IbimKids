@@ -67,6 +67,7 @@ export class EscalaService {
     
         return escalaSchemaResponse.parse(escala)
     }
+    
 
     async list() {
         const escalaRepository = AppDataSource.getRepository(Escala);
@@ -76,6 +77,7 @@ export class EscalaService {
             relations: ["professores"], 
         }
     );
+    console.log(escalas)
     
         return escalas.map((escala) => escalaSchemaResponse.parse(escala));
     }

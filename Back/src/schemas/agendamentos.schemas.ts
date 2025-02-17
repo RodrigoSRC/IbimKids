@@ -8,7 +8,7 @@ const agendamentoSchema = z.object({
     telefone: z.string(),
     observacao: z.string(),
     data_registrada: z.string(),
-    escalaId: z.string()
+    escalaId: z.string().optional()
 })
 
 const agendamentoSchemaRequest = agendamentoSchema.omit({

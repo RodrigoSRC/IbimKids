@@ -9,7 +9,7 @@ interface FormData {
     responsavel_nome: string;
     telefone: string;
     observacao: string;
-    // data_registrada: string;
+    escalaId: string;
   }
 
 interface AgendamentosValues {
@@ -28,11 +28,6 @@ export const AgendamentosListContext = createContext<AgendamentosValues>({} as A
 
 export const AgendamentosListProvider = ({ children }:AgendamentoProviderProps) => {
   const [agendamentos, setAgendamentos] = useState<Agendamento[]>([]);
-
-//   const [isOpenAddAgendamento, setIsOpenAddAgendamento] = useState(false);
-//   const [isOpenEditAgendamento, setIsOpenEditAgendamento] = useState(false);
-//   const [isOpenRemoveAgendamento, setIsOpenRemoveAgendamento] = useState(false);
-
  
   useEffect(() => {
     const getAgendamentosToList = async () => {
@@ -52,27 +47,22 @@ export const AgendamentosListProvider = ({ children }:AgendamentoProviderProps) 
 
   const addAgendamento = async (formData: FormData) => {
     try {
-    //   const token = localStorage.getItem("@TOKEN");
 
       const newAgendamento = {
         ...formData,
       };
 
-      toast.success("Agendamento criado com sucesso", {
-        theme: "dark",
-        autoClose: 1500,
-      });
-
       const { data } = await api.post("/agendamentos", newAgendamento
-    //     , 
-    //     {
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   }
     );
 
-      setAgendamentos((agendamentos) => [...agendamentos, data]);
+    setAgendamentos((agendamentos) => [...agendamentos, data]);
+
+    toast.success("Agendamento criado com sucesso", {
+      theme: "dark",
+      autoClose: 1500,
+    });
+
+      
     } catch (error) {
       console.log(error);
     }
@@ -80,7 +70,6 @@ export const AgendamentosListProvider = ({ children }:AgendamentoProviderProps) 
 
   const deleteAgendamento = async (agendamentoId: string) => {
     try {
-    //   const token = localStorage.getItem("@TOKEN");
 
       toast.success("Agendamento deletado com sucesso", {
         theme: "dark",
@@ -88,12 +77,6 @@ export const AgendamentosListProvider = ({ children }:AgendamentoProviderProps) 
       });
 
       await api.delete(`/agendamentos/${agendamentoId}`
-    //   , 
-    //   {
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   }
       );
 
       setAgendamentos((agendamentoList) => agendamentoList.filter((agendamento) => agendamento.id !== agendamentoId));
@@ -105,7 +88,6 @@ export const AgendamentosListProvider = ({ children }:AgendamentoProviderProps) 
 
   const editAgendamento = async (formData: FormData, agendamentoId: string) => {
     try {
-    //   const token = localStorage.getItem("@TOKEN");
 
       const newAgendamento = {
         id: agendamentoId,
