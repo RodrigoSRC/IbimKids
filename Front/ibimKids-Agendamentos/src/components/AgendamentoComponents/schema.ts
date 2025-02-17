@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { FormEvent } from "react"
 
-export const registerFormSchema = z.object({
+export const agendamentoFormSchema = z.object({
     nome: z
         .string()
         .nonempty("Insira o nome do usuário."),

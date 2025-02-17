@@ -41,8 +41,6 @@ export const AgendamentosListProvider = ({ children }:AgendamentoProviderProps) 
         const { data } = await api.get("/agendamentos");
         
         setAgendamentos(data);
-        console.log(agendamentos)
-        console.log(data)
 
       } catch (error) {
         console.log(error);

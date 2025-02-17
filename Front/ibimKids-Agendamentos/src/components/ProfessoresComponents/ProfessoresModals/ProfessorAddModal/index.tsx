@@ -47,9 +47,9 @@ export const AddProfessorModal = ({ toggleModalProf, setIsOpenAddProf }: ModalAd
                 id="telefone"
                 title="Contato" 
                 type="text" 
-                onKeyUp={
-                  handlePhone
-                } 
+                // onKeyUp={
+                //   handlePhone
+                // } 
                 minLength={10}
                 maxLength={12}
                 placeholder="Digite aqui o contato" 

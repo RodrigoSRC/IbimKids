@@ -52,7 +52,6 @@ export const EscalasListProvider = ({ children }:EscalaProviderProps) => {
 
       try {
         const { data } = await api.get("/escalas");
-        console.log(data)
         
         setEscalas(data);
       } catch (error) {

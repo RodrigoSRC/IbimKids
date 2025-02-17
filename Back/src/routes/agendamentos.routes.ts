@@ -8,9 +8,9 @@ const agendamentoRoutes = Router()
 
 agendamentoRoutes.post("", ensureDataIsValidMiddleware(profSchemaRequest), (req, res) => agendamentoController.create(req, res))
 
-agendamentoRoutes.use(ensureAuthMiddleware)
-
 agendamentoRoutes.get("", (req, res) => agendamentoController.list(req, res))
+
+agendamentoRoutes.use(ensureAuthMiddleware)
 
 agendamentoRoutes.get("/:id", (req, res) => agendamentoController.find(req, res))
 

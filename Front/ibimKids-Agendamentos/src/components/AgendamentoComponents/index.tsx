@@ -1,11 +1,14 @@
 import { SubmitHandler, FieldValues } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registerFormSchema } from "./schema";
-import { Input, Form } from 'rsuite';
+import { agendamentoFormSchema } from "./schema";
+import { Input, Form, DatePicker, SelectPicker } from 'rsuite';
 import { StyledButton } from "../Button/Button";
-import { useContext } from "react";
-import { UserContext } from "../../providers/UserContext";
+import { useContext, useEffect, useState } from "react";
+// import { TAgendameno}
+import { api } from "../../services/api";
+import { AgendamentosListContext } from "../../providers/AgendamentosListContext"
+import isBefore from 'date-fns/isBefore';
 
 export const AgendamentoForm = () => {
     const { 
@@ -13,36 +16,122 @@ export const AgendamentoForm = () => {
         handleSubmit, 
         formState: { errors }  
     } = useForm({
-        resolver: zodResolver(registerFormSchema)
+        resolver: zodResolver(agendamentoFormSchema)
     });
 
-    const { userRegister } = useContext(UserContext);
+    interface Escala {
+        id: string;
+        crianca_nome: string;
+        data_escala: string;
+        data_registrada: string;
+        data_turno: string;
+        descricao: string;
+        faixa_etaria: string;
+        limite: string;
+        
+    }
+    
+
+    // const { userRegister } = useContext(UserContext);
 
     const submit: SubmitHandler<FieldValues> = (formData) => {
-        userRegister(formData);
+        // userRegister(formData);
     };
 
+
+
+    const { addAgendamento } = useContext(AgendamentosListContext);
+
+    const [escalas, setEscalas] = useState<Escala[]>([]);
+    const [datasDisponiveis, setDatasDisponiveis] = useState<string[]>([]);
+    const [dataSelecionada, setDataSelecionada] = useState<string | null>(null);
+    const [turnosDisponiveis, setTurnosDisponiveis] = useState<string[]>([]);
+
+    useEffect(() => {
+        const fetchEscalas = async () => {
+            try {
+                const { data } = await api.get<Escala[]>("/escalas");
+                setEscalas(data);
+
+                // Extrai datas únicas disponíveis
+                const datasUnicas = Array.from(new Set(data.map(item => item.data_escala)));
+                setDatasDisponiveis(datasUnicas);
+            } catch (error) {
+                console.error("Erro ao buscar datas:", error);
+            }
+        };
+
+        fetchEscalas();
+    }, []);
+
+    const createAgendamento = async (data: TEscalaSchema) => {
+        const formData = {
+          ...data,
+          // professorIds, // Incluindo os IDs dos professores selecionados
+        };
+        
+        addAgendamento(formData);
+        // setIsOpenAddEscala(false);
+      };
+
+    // Atualiza os turnos ao selecionar uma data
+    useEffect(() => {
+        if (dataSelecionada) {
+            const turnos = escalas
+                .filter(item => item.data_escala === dataSelecionada)
+                .map(item => item.data_turno);
+            
+            setTurnosDisponiveis(Array.from(new Set(turnos))); // Remove duplicatas
+        } else {
+            setTurnosDisponiveis([]);
+        }
+    }, [dataSelecionada, escalas]);
+    
+
     return (
+        // <Form 
+        //     onSubmit={(event) => {
+        //         // event!.preventDefault();
+        //         handleSubmit(submit)();
+        //     }} 
+        //     noValidate
+        // >
         <Form 
-            onSubmit={(event) => {
-                event!.preventDefault();
-                handleSubmit(submit)();
-            }} 
+            onSubmit={(formValue, event) => {
+                event?.preventDefault(); // ✅ Garante que previna o comportamento padrão do form
+                handleSubmit(submit)();  // ✅ Chama a função correta do react-hook-form
+            }}
             noValidate
         >
-            {/* <h2>Que ele venha aprender mais de Deus</h2> */}
-            {/* <p>Que ele venha aprender mais de Deus!</p> */}
+
+
 
             <Form.Group controlId="crianca_nome">
                 <Form.ControlLabel>Nome</Form.ControlLabel>
                 <Form.Control 
                     name="crianca_nome"
                     accepter={Input}
-                    placeholder="Nome da criança"
-                    // {...register("nome")}
+                    placeholder="Informe o nome da criança"
                     onChange={(value, event) => register("crianca_nome").onChange(event)}
                     onBlur={register("crianca_nome").onBlur}
                     inputRef={register("crianca_nome").ref}
+                />
+                {errors.nome?.message && (
+                <Form.HelpText style={{ color: "red" }}>
+                    {String(errors.nome.message)}
+                </Form.HelpText>
+                )}
+            </Form.Group>
+
+             <Form.Group controlId="responsavel_nome">
+                 <Form.ControlLabel>Nome do Responsável</Form.ControlLabel>
+                 <Form.Control 
+                    name="responsavel_nome"
+                    accepter={Input}
+                    placeholder="Informe o nome do responsável"
+                    onChange={(value, event) => register("responsavel_nome").onChange(event)}
+                    onBlur={register("responsavel_nome").onBlur}
+                    inputRef={register("responsavel_nome").ref}
                 />
                 {errors.nome?.message && (
                 <Form.HelpText style={{ color: "red" }}>
@@ -57,7 +146,6 @@ export const AgendamentoForm = () => {
                     name="crianca_idade"
                     accepter={Input}
                     placeholder="Idade da criança"
-                    // {...register("email")}
                     onChange={(value, event) => register("crianca_idade").onChange(event)}
                     onBlur={register("crianca_idade").onBlur}
                     inputRef={register("crianca_idade").ref}
@@ -69,26 +157,6 @@ export const AgendamentoForm = () => {
                 )}
             </Form.Group>
 
-            <Form.Group controlId="responsavel_nome">
-                <Form.ControlLabel>Senha</Form.ControlLabel>
-                <Form.Control 
-                    name="senha"
-                    accepter={Input}
-                    // type="password"
-                    placeholder="Nome do responsável"
-                    // {...register("senha")}
-                    onChange={(value, event) => register("responsavel_nome").onChange(event)}
-                    onBlur={register("responsavel_nome").onBlur}
-                    inputRef={register("responsavel_nome").ref}
-                />
-                {errors.nome?.message && (
-                <Form.HelpText style={{ color: "red" }}>
-                    {String(errors.nome.message)}
-                </Form.HelpText>
-                )}
-            </Form.Group>
-
-
 
             <Form.Group controlId="telefone">
                 <Form.ControlLabel>Contato</Form.ControlLabel>
@@ -96,7 +164,6 @@ export const AgendamentoForm = () => {
                     name="telefone"
                     accepter={Input}
                     placeholder="Opção de contato"
-                    // {...register("telefone")}
                     onChange={(value, event) => register("telefone").onChange(event)}
                     onBlur={register("telefone").onBlur}
                     inputRef={register("telefone").ref}
@@ -114,9 +181,7 @@ export const AgendamentoForm = () => {
                 <Form.Control 
                     name="observacao"
                     accepter={Input}
-                    // type="password"
                     placeholder="Alguma observação?"
-                    // {...register("confirm")}
                     onChange={(value, event) => register("observacao").onChange(event)}
                     onBlur={register("observacao").onBlur}
                     inputRef={register("observacao").ref}
@@ -128,10 +193,244 @@ export const AgendamentoForm = () => {
                 )}
                 </Form.Group>
 
+                <Form.Group controlId="date">
+                <Form.ControlLabel>Data agendada</Form.ControlLabel>
+                <DatePicker 
+    format="dd/MM/yyyy"
+    placeholder="dia/mês/ano" 
+    oneTap
+    defaultValue={new Date()} 
+    shouldDisableDate={date => isBefore(date, new Date())}
+    value={dataSelecionada ? new Date(dataSelecionada) : null}
+    onChange={(date: Date | null) => 
+        setDataSelecionada(date ? date.toISOString().split('T')[0] : null)
+    }
+    renderCell={(date) => {
+        const dateString = date.toISOString().split('T')[0]; 
+        const isAvailable = datasDisponiveis.includes(dateString);
+
+        return (
+            <div style={{
+                border: isAvailable ? '2px solid #4CAF50' : 'none',
+                borderRadius: '5px',
+                padding: '5px',
+                backgroundColor: isAvailable ? '#e8f5e9' : 'transparent'
+            }}>
+                {date.getDate()}
+            </div>
+        );
+    }}
+/>
+
+            </Form.Group>
+
+            <Form.Group controlId="turno">
+                <Form.ControlLabel>Turno desejado</Form.ControlLabel>
+                <SelectPicker 
+                    data={turnosDisponiveis.map(turno => ({ label: turno, value: turno }))}
+                    disabled={!dataSelecionada}
+                    placeholder="Selecione um turno"
+                />
+            </Form.Group>
+
+            {/* <Form.Group controlId="date">
+                <Form.ControlLabel>Data agendada</Form.ControlLabel>
+                <DatePicker 
+                    format="dd/MM/yyyy"
+                    placeholder="dia/mês/ano" 
+                    oneTap
+                    
+                    defaultValue={new Date()} 
+                    shouldDisableDate={date => isBefore(date, new Date())}
+                    value={dataSelecionada ? new Date(dataSelecionada) : null} // ✅ Converter string para Date
+                    onChange={(date: Date | null) => 
+                        setDataSelecionada(date ? date.toISOString().split('T')[0] : null)
+                    }
+                />
+
+            </Form.Group>
+
+            <Form.Group controlId="turno">
+                <Form.ControlLabel>Turno desejado</Form.ControlLabel>
+                <SelectPicker 
+                    data={turnosDisponiveis.map(turno => ({ label: turno, value: turno }))}
+                    disabled={!dataSelecionada}
+                    placeholder="Selecione um turno"
+                />
+            </Form.Group> */}
+
             <StyledButton type="submit">Agendar</StyledButton>
         </Form>
     );
 };
+
+
+
+// import { SubmitHandler, FieldValues } from "react-hook-form";
+// import { useForm } from "react-hook-form";
+// import { zodResolver } from "@hookform/resolvers/zod";
+// import { registerFormSchema } from "./schema";
+// import { Input, Form, DatePicker } from 'rsuite';
+// import { StyledButton } from "../Button/Button";
+// import { useContext, useEffect, useState } from "react";
+// import { UserContext } from "../../providers/UserContext";
+// import { api }from "../../services/api";
+
+// export const AgendamentoForm = () => {
+//     const { 
+//         register, 
+//         handleSubmit, 
+//         formState: { errors }  
+//     } = useForm({
+//         resolver: zodResolver(registerFormSchema)
+//     });
+
+//     const { userRegister } = useContext(UserContext);
+
+//     const submit: SubmitHandler<FieldValues> = (formData) => {
+//         userRegister(formData);
+//     };
+
+//     const [escalas, setEscalas] = useState([])
+
+//       useEffect(() => {
+//         const fetchEscalas = async () => {
+//           try {
+//             const { data } = await api.get("/escalas");
+//             console.log(data)
+//             setEscalas(data);
+    
+//           } catch (error) {
+//             console.error("Erro ao buscar datas:", error);
+//           }
+//         };
+    
+//         fetchEscalas();
+//       }, []);
+
+//     return (
+//         <Form 
+//             onSubmit={(event) => {
+//                 event!.preventDefault();
+//                 handleSubmit(submit)();
+//             }} 
+//             noValidate
+//         >
+
+//             <Form.Group controlId="crianca_nome">
+//                 <Form.ControlLabel>Nome</Form.ControlLabel>
+//                 <Form.Control 
+//                     name="crianca_nome"
+//                     accepter={Input}
+//                     placeholder="Informe o nome da criança"
+//                     onChange={(value, event) => register("crianca_nome").onChange(event)}
+//                     onBlur={register("crianca_nome").onBlur}
+//                     inputRef={register("crianca_nome").ref}
+//                 />
+//                 {errors.nome?.message && (
+//                 <Form.HelpText style={{ color: "red" }}>
+//                     {String(errors.nome.message)}
+//                 </Form.HelpText>
+//                 )}
+//             </Form.Group>
+
+//             <Form.Group controlId="responsavel_nome">
+//                 <Form.ControlLabel>Nome do Responsável</Form.ControlLabel>
+//                 <Form.Control 
+//                     name="responsavel_nome"
+//                     accepter={Input}
+//                     placeholder="Informe o nome do responsável"
+//                     onChange={(value, event) => register("responsavel_nome").onChange(event)}
+//                     onBlur={register("responsavel_nome").onBlur}
+//                     inputRef={register("responsavel_nome").ref}
+//                 />
+//                 {errors.nome?.message && (
+//                 <Form.HelpText style={{ color: "red" }}>
+//                     {String(errors.nome.message)}
+//                 </Form.HelpText>
+//                 )}
+//             </Form.Group>
+
+//             <Form.Group controlId="crianca_idade">
+//                 <Form.ControlLabel>Idade</Form.ControlLabel>
+//                 <Form.Control 
+//                     name="crianca_idade"
+//                     accepter={Input}
+//                     placeholder="Idade da criança"
+//                     onChange={(value, event) => register("crianca_idade").onChange(event)}
+//                     onBlur={register("crianca_idade").onBlur}
+//                     inputRef={register("crianca_idade").ref}
+//                 />
+//                 {errors.nome?.message && (
+//                 <Form.HelpText style={{ color: "red" }}>
+//                     {String(errors.nome.message)}
+//                 </Form.HelpText>
+//                 )}
+//             </Form.Group>
+
+
+//             <Form.Group controlId="telefone">
+//                 <Form.ControlLabel>Contato</Form.ControlLabel>
+//                 <Form.Control 
+//                     name="telefone"
+//                     accepter={Input}
+//                     placeholder="Opção de contato"
+//                     onChange={(value, event) => register("telefone").onChange(event)}
+//                     onBlur={register("telefone").onBlur}
+//                     inputRef={register("telefone").ref}
+//                 />
+//                 {errors.nome?.message && (
+//                 <Form.HelpText style={{ color: "red" }}>
+//                     {String(errors.nome.message)}
+//                 </Form.HelpText>
+//                 )}
+//                 </Form.Group>
+
+
+//                 <Form.Group controlId="observacao">
+//                 <Form.ControlLabel>Observação (opcional)</Form.ControlLabel>
+//                 <Form.Control 
+//                     name="observacao"
+//                     accepter={Input}
+//                     placeholder="Alguma observação?"
+//                     onChange={(value, event) => register("observacao").onChange(event)}
+//                     onBlur={register("observacao").onBlur}
+//                     inputRef={register("observacao").ref}
+//                 />
+//                 {errors.nome?.message && (
+//                 <Form.HelpText style={{ color: "red" }}>
+//                     {String(errors.nome.message)}
+//                 </Form.HelpText>
+//                 )}
+//                 </Form.Group>
+
+//                 <Form.Group controlId="date">
+//                 <Form.ControlLabel>Data agendada</Form.ControlLabel>
+//                     <DatePicker format="dd.MM.yyyy" />  
+
+//                 </Form.Group>
+
+//                 <Form.Group controlId="turno">
+//                 <Form.ControlLabel>Turno desejado</Form.ControlLabel>
+//                 <Form.Control 
+//                     name="observacao"
+//                     accepter={Input}
+//                     placeholder="Alguma observação?"
+//                     onChange={(value, event) => register("observacao").onChange(event)}
+//                     onBlur={register("observacao").onBlur}
+//                     inputRef={register("observacao").ref}
+//                 />
+//                 {errors.nome?.message && (
+//                 <Form.HelpText style={{ color: "red" }}>
+//                     {String(errors.nome.message)}
+//                 </Form.HelpText>
+//                 )}
+//                 </Form.Group>
+
+//             <StyledButton type="submit">Agendar</StyledButton>
+//         </Form>
+//     );
+// };
 
 
 // import { SubmitHandler, FieldValues  } from "react-hook-form";

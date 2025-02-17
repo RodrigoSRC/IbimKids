@@ -46,7 +46,6 @@ export const ProfessoresListProvider = ({ children }:ProfessorProviderProps) => 
 
       try {
         const { data } = await api.get("/professores");
-        console.log(data)
         
         setProfessores(data);
       } catch (error) {

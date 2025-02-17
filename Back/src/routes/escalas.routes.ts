@@ -6,11 +6,11 @@ import { ensureAuthMiddleware } from "../middlewares/ensureAuth.middleware";
 
 const escalaRoutes = Router()
 
+escalaRoutes.get("", (req, res) => escalaController.list(req, res))
+
 escalaRoutes.use(ensureAuthMiddleware)
 
 escalaRoutes.post("", ensureDataIsValidMiddleware(escalaSchemaRequest), (req, res) => escalaController.create(req, res))
-
-escalaRoutes.get("", (req, res) => escalaController.list(req, res))
 
 escalaRoutes.get("/:id", (req, res) => escalaController.find(req, res))
 
