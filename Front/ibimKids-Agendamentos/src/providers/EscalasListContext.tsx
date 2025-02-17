@@ -69,6 +69,7 @@ export const EscalasListProvider = ({ children }:EscalaProviderProps) => {
       const newEscala = {
         ...formData,
       };
+      console.log(newEscala)
 
       const { data } = await api.post("/escalas", newEscala, {
         headers: {

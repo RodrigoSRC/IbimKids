@@ -42,6 +42,7 @@ export const AgendamentoForm = () => {
         const fetchEscalas = async () => {
             try {
                 const { data } = await api.get<Escala[]>("/escalas");
+                console.log(data)
                 setEscalas(data);
 
                 // Extrai datas únicas disponíveis
@@ -69,6 +70,7 @@ export const AgendamentoForm = () => {
                 ...data,
                 escalaId: escalaSelecionada.id, // Incluindo o ID da escala no formData
             };
+            console.log(formData)
             
             addAgendamento(formData);
         } else {

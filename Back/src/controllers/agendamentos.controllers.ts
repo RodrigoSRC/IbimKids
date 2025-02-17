@@ -6,6 +6,7 @@ import { AgendamentoService } from "../services/agendamentos.service";
 class AgendamentoController {
     constructor(private agendaServices: AgendamentoService){}
     async create(req: Request, res: Response) {
+        console.log(req.body)
         
         const newAgenda = await this.agendaServices.create(req.body)
 

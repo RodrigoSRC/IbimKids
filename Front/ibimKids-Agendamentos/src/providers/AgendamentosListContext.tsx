@@ -51,16 +51,18 @@ export const AgendamentosListProvider = ({ children }:AgendamentoProviderProps) 
       const newAgendamento = {
         ...formData,
       };
+      console.log(newAgendamento)
 
       const { data } = await api.post("/agendamentos", newAgendamento
     );
-
+    
     setAgendamentos((agendamentos) => [...agendamentos, data]);
 
     toast.success("Agendamento criado com sucesso", {
       theme: "dark",
       autoClose: 1500,
     });
+
 
       
     } catch (error) {

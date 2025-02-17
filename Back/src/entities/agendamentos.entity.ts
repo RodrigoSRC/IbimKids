@@ -25,8 +25,8 @@ class Agendamento {
     @CreateDateColumn({ type: "date" })
     data_registrada: string;
 
-    @ManyToOne(() => Escala, {onDelete: 'CASCADE'})
-    escala: Escala
+    @ManyToOne(() => Escala, { onDelete: 'SET NULL', nullable: true })
+    escala: Escala | null;
 
 }
 

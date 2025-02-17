@@ -37,7 +37,8 @@ export class AgendamentoService {
         }
     
         const agenda = agendaRepository.create({
-            ...data 
+            ...data,
+            escala: findEscala
         })
     
         await agendaRepository.save(agenda)
