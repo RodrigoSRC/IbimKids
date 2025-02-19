@@ -20,7 +20,6 @@ class AgendamentoController {
     }
 
     async find(req: Request, res: Response) {
-        // const findValues: TEscalaUpdateRequest = req.body
         const agendaId = req.params.id
 
         const agenda = await this.agendaServices.find(agendaId);
@@ -40,6 +39,7 @@ class AgendamentoController {
 
     async remove(req: Request, res: Response) {
         const agendaId = req.params.id
+        
         await this.agendaServices.remove(agendaId)
 
         res.status(204).send()

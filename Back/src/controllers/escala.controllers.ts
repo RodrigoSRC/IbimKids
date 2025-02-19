@@ -38,6 +38,7 @@ class EscalaController {
 
     async remove(req: Request, res: Response) {
         const escalaId = req.params.id
+        
         await this.escalaServices.remove(escalaId)
 
         res.status(204).send()
