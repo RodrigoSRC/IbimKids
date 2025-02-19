@@ -49,7 +49,7 @@ export class EscalaService {
         }
         
         const professores = await professorRepository.findBy({
-            id: In(professorIds ?? []), // Se for undefined, usa um array vazio
+            id: In(professorIds ?? []),
         });
         
         
@@ -77,7 +77,6 @@ export class EscalaService {
             relations: ["professores"], 
         }
     );
-    console.log(escalas)
     
         return escalas.map((escala) => escalaSchemaResponse.parse(escala));
     }
@@ -85,14 +84,11 @@ export class EscalaService {
     async find(escalaId: string) {
         const escalaRepository = AppDataSource.getRepository(Escala);
     
-        // Busca todas as escalas, incluindo os professores relacionados
         const escala = await escalaRepository.findOne({
             where: { id: escalaId },
-            relations: ["professores"], // Carrega também os professores associados
+            relations: ["professores"],
         });
-    
-        // Valida e transforma os dados antes de retornar
-        // return escalas.map((escala) => escalaSchemaResponse.parse(escala));
+
         return escala
     }
     

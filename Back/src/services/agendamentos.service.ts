@@ -63,7 +63,7 @@ export class AgendamentoService {
         const agendaRepository = AppDataSource.getRepository(Agendamento)
         const agenda = await agendaRepository.findOne({
             where: { id: agendaId },
-            relations: ["escala"], // Carrega também os professores associados
+            relations: ["escala"],
         })
 
         if (!agenda) {

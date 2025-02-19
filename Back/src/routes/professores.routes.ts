@@ -6,7 +6,7 @@ import { ensureAuthMiddleware } from "../middlewares/ensureAuth.middleware";
 
 const profsRoutes = Router()
 
-// profsRoutes.use(ensureAuthMiddleware)
+profsRoutes.use(ensureAuthMiddleware)
 
 profsRoutes.post("", ensureDataIsValidMiddleware(profSchemaRequest), (req, res) => profsController.create(req, res))
 

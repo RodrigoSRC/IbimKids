@@ -21,11 +21,6 @@ class Client {
     @CreateDateColumn({ type: "date" })
     data_registrada: string;
 
-    // @OneToMany(() => Contact, contact => contact.client)
-    // @JoinColumn()
-    // Contacts: Contact[];
-
-
     @BeforeInsert()
     @BeforeUpdate()
     hashPassword() {

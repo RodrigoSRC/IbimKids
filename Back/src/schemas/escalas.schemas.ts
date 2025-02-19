@@ -9,14 +9,12 @@ const escalaSchema = z.object({
     data_escala: z.string(),
     data_turno: z.string(),
     data_registrada: z.string(),
-    // professorIds: z.array(z.string())
     professorIds: z.array(z.string()).optional()
 });
 
 const escalaSchemaRequest = escalaSchema.omit({
     id: true,
     data_registrada: true,
-    // limite: true
 });
 
 const escalaSchemaResponse = escalaSchema.omit({
