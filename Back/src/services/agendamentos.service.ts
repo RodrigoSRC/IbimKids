@@ -54,7 +54,6 @@ export class AgendamentoService {
             relations: ["escala"],
         }
     );
-    console.log(agendamentos)
     
         return agendamentos.map((agendamento) => agendamentoSchemaResponse.parse(agendamento));
     }

@@ -6,7 +6,6 @@ import { AgendamentoService } from "../services/agendamentos.service";
 class AgendamentoController {
     constructor(private agendaServices: AgendamentoService){}
     async create(req: Request, res: Response) {
-        console.log(req.body)
         
         const newAgenda = await this.agendaServices.create(req.body)
 
@@ -39,7 +38,7 @@ class AgendamentoController {
 
     async remove(req: Request, res: Response) {
         const agendaId = req.params.id
-        
+
         await this.agendaServices.remove(agendaId)
 
         res.status(204).send()

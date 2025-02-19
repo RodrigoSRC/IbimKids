@@ -12,12 +12,8 @@ export class SessionService {
         const findClient = await clientRepository.findOne({
             where: {
                 email
-            },
-            // relations: {
-            //     Contacts: true
-            // }
+            }
         })
-        console.log(findClient)
         if(!findClient){
             throw new AppError("Credenciais inválidas", 401)
         }
