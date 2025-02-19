@@ -10,8 +10,7 @@ interface FormData {
   limite: string;
   data_escala: string;
   data_turno: string;
-  // professorIds: string;
-  // professores: [];
+  professorIds: [];
 }
 
 
@@ -69,7 +68,6 @@ export const EscalasListProvider = ({ children }:EscalaProviderProps) => {
       const newEscala = {
         ...formData,
       };
-      console.log(newEscala)
 
       const { data } = await api.post("/escalas", newEscala, {
         headers: {

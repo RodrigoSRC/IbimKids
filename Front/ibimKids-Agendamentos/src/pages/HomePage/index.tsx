@@ -72,15 +72,12 @@ export const HomePage = () => {
         (
             async () => {
                 const responseEscalas = await api.get("/escalas");
-                console.log(responseEscalas.data)
                 setEscalas(responseEscalas.data);
 
                 const responseProf = await api.get("/professores");
-                console.log(responseProf.data)
                 setProfessores(responseProf.data);
 
                 const responseAgendamento = await api.get("/agendamentos")
-                console.log(responseAgendamento.data)
                 setAgendamentos(responseAgendamento.data)
 
             }
@@ -176,7 +173,7 @@ export const HomePage = () => {
                     <section>
                         <StyledTitle>Atualmente <span>{agendamentos.length}</span> agendamentos</StyledTitle>
 
-                        <FaPlusCircle style={{ width: '20px', height: '20px', cursor: 'pointer'}} type="button" onClick={toggleModalAddProf}/>
+                        {/* <FaPlusCircle style={{ width: '20px', height: '20px', cursor: 'pointer'}} type="button" onClick={toggleModalAddProf}/> */}
 
                     </section>
 

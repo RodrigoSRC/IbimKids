@@ -45,7 +45,6 @@ interface User {
   telefone: string;
 }
 
-
 export const UserContext = createContext<UserContextValues>({} as UserContextValues)
 
 export const UserProvider = ({ children }: UserProviderProps) => {
@@ -67,49 +66,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
         setLoading(false)
     }, [])
-
-  //   useEffect(() => {
-  //     const token = localStorage.getItem("@TOKEN");
-  //     const userId = localStorage.getItem("@USERID");
-  
-  //     // Função assíncrona para carregar os dados do usuário
-  //     const userLoad = async () => {
-
-
-  //         try {
-  //             // Inicia o carregamento
-  //             setLoading(true);
-  
-  //             // Se o token existe, configura o header do Axios
-  //             if (token) {
-  //                 api.defaults.headers.common.Authorization = `Bearer ${token}`;
-  
-  //                 // Faz a chamada para obter os dados do usuário
-  //                 const { data } = await api.get(`/clients/${userId}`);
-  //                 setUser(data);
-  
-  //                 // Navega para o caminho atual, preservando a página onde o usuário está
-  //                 navigate(currentPath);
-  //             } else {
-  //                 throw new Error("Token inválido ou não encontrado.");
-  //             }
-  //         } catch (error) {
-  //             console.error("Erro ao carregar usuário:", error);
-  
-  //             // Remove tokens inválidos do localStorage
-  //             localStorage.removeItem("@TOKEN");
-  //             localStorage.removeItem("@USERID");
-  //         } finally {
-  //             // Finaliza o carregamento
-  //             setLoading(false);
-  //         }
-  //     };
-  
-  //     // Chama a função assíncrona para carregar os dados do usuário
-  //     userLoad();
-  // }, [navigate, currentPath]);
-  
-
 
     const userLogin = async (data: LoginData) => {
         try {
@@ -237,11 +193,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
           });
         }
       };
-
-
-
-
-
 
     useEffect(() => {
         const token = localStorage.getItem("@TOKEN")

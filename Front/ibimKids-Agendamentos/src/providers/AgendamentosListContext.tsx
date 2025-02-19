@@ -62,8 +62,6 @@ export const AgendamentosListProvider = ({ children }:AgendamentoProviderProps) 
       theme: "dark",
       autoClose: 1500,
     });
-
-
       
     } catch (error) {
       console.log(error);

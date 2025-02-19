@@ -12,7 +12,6 @@ interface FormData {
 
 interface ProfessoresValues {
   professores: Professor[];
-  // setProfessores: React.Dispatch<React.SetStateAction<Professor[]>>;
   setProfessores: React.Dispatch<React.SetStateAction<Professor[]>>;
   addProfessor: (formData: any) => Promise<void>;
   editProfessor: (formData: any, professorId: string) => Promise<void>;
@@ -64,11 +63,6 @@ export const ProfessoresListProvider = ({ children }:ProfessorProviderProps) => 
         ...formData,
       };
 
-      toast.success("Professor criado com sucesso", {
-        theme: "dark",
-        autoClose: 1500,
-      });
-
       const { data } = await api.post("/professores", newProfessor, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -76,6 +70,11 @@ export const ProfessoresListProvider = ({ children }:ProfessorProviderProps) => 
       });
 
       setProfessores((professores) => [...professores, data]);
+
+      toast.success("Professor(a) criado com sucesso", {
+        theme: "dark",
+        autoClose: 1500,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -84,11 +83,6 @@ export const ProfessoresListProvider = ({ children }:ProfessorProviderProps) => 
   const deleteProfessor = async (professorId: string) => {
     try {
       const token = localStorage.getItem("@TOKEN");
-
-      toast.success("Contato deletado com sucesso", {
-        theme: "dark",
-        autoClose: 1500,
-      });
 
       await api.delete(`/professores/${professorId}`
       , 
@@ -100,6 +94,11 @@ export const ProfessoresListProvider = ({ children }:ProfessorProviderProps) => 
       );
 
       setProfessores((professorList) => professorList.filter((professor) => professor.id !== professorId));
+
+      toast.success("Professor(a) deletado com sucesso", {
+        theme: "dark",
+        autoClose: 1500,
+      });
 
     } catch (error) {
       console.log(error);
@@ -115,11 +114,6 @@ export const ProfessoresListProvider = ({ children }:ProfessorProviderProps) => 
         ...formData,
       };
 
-      toast.success("Professor editado com sucesso", {
-        theme: "dark",
-        autoClose: 1500,
-      });
-
       const { data } = await api.patch(`/professores/${professorId}`, newProfessor, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -130,6 +124,13 @@ export const ProfessoresListProvider = ({ children }:ProfessorProviderProps) => 
         professores.map((professor) => professor.id === professorId ? { ...professor, ...data } : professor
         )
       );
+
+      toast.success("Professor(a) editado com sucesso", {
+        theme: "dark",
+        autoClose: 1500,
+      });
+
+
     } catch (error) {
       console.log(error);
     }
