@@ -6,11 +6,12 @@ import { UserProvider } from './providers/UserContext.js'
 import { EscalasListProvider } from './providers/EscalasListContext.js'
 import { ProfessoresListProvider } from './providers/ProfessoresListContext.js'
 import { AgendamentosListProvider } from './providers/AgendamentosListContext.js'
+import { CustomProvider } from 'rsuite';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
-
+    <CustomProvider theme="dark">
         <UserProvider>
           <EscalasListProvider>
             <ProfessoresListProvider>
@@ -20,6 +21,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
             </ProfessoresListProvider>
           </EscalasListProvider>
         </UserProvider>
+    </CustomProvider>
+
 
     </BrowserRouter>
   </React.StrictMode>,

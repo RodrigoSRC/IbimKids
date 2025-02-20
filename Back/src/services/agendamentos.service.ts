@@ -54,8 +54,10 @@ export class AgendamentoService {
             relations: ["escala"],
         }
     );
+    console.log(agendamentos)
     
-        return agendamentos.map((agendamento) => agendamentoSchemaResponse.parse(agendamento));
+        // return agendamentos.map((agendamento) => agendamentoSchemaResponse.parse(agendamento));
+        return agendamentos
     }
 
     async find(agendaId: string) {
@@ -69,7 +71,9 @@ export class AgendamentoService {
             throw new AppError("Agendamento não encontrado", 404)
         }
     
-        return agendamentoSchemaResponse.parse(agenda)
+        // return agendamentoSchemaResponse.parse(agenda)
+        return agenda
+    
     }
 
 

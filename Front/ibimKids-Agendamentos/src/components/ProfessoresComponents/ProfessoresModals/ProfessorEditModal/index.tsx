@@ -58,9 +58,9 @@ export const EditProfessorModal = ({ toggleModalProf, setIsOpenEditProf, profess
                 title="Contato" 
                 type="text" 
                 defaultValue={currentProfessor!.telefone}
-                onKeyUp={
-                  handlePhone
-                } 
+                // onKeyUp={
+                //   handlePhone
+                // } 
                 minLength={10}
                 maxLength={12}
                 placeholder="Digite aqui o contato" 

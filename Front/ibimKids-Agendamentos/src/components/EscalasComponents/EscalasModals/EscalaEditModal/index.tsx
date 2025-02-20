@@ -44,6 +44,7 @@ export const EditEscalaModal = ({ toggleModalEscala, setIsOpenEdit, escalaId  }:
       
           try {
             const { data } = await api.get(`/escalas/${escalaId}`);
+            console.log(data)
       
             setValue("nome", data.nome);
             setValue("faixa_etaria", data.faixa_etaria);

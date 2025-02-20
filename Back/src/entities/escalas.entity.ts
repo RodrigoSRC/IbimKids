@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany, CreateDateColumn, JoinColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, CreateDateColumn, JoinTable } from "typeorm";
 import { Professor } from "./professores.entity";
 import { Agendamento } from "./agendamentos.entity";
 
@@ -6,14 +6,14 @@ export enum Turno {
     MANHA = 'MANHA',
     TARDE = 'TARDE',
     NOITE = 'NOITE',
-  }
+}
 
 @Entity('escalas')
 class Escala {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column({ unique: true })
+    @Column()
     nome: string;
     
     @Column()
@@ -34,13 +34,14 @@ class Escala {
     @CreateDateColumn({ type: "date" })
     data_registrada: string;
 
-    @OneToMany(() => Professor, professor => professor.escala)
-    @JoinColumn()
+    @ManyToMany(() => Professor, professor => professor.escalas)
+    @JoinTable()
     professores: Professor[];
 
-    @OneToMany(() => Agendamento, agendamento => agendamento.escala)
-    @JoinColumn()
-    agendamento: Agendamento[];
+    @ManyToMany(() => Agendamento, agendamento => agendamento.escala)
+    @JoinTable()
+    agendamentos: Agendamento[];
 }
 
 export { Escala };
+

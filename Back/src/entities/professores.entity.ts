@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, CreateDateColumn } from "typeorm";
 import { Escala } from "./escalas.entity";
 
 @Entity('professores')
@@ -15,10 +15,8 @@ class Professor {
     @CreateDateColumn({ type: "date" })
     data_registrada: string;
 
-    @ManyToOne(() => Escala, { onDelete: 'SET NULL', nullable: true })
-    escala: Escala | null;
-    
-
+    @ManyToMany(() => Escala, escala => escala.professores)
+    escalas: Escala[];
 }
 
 export { Professor };

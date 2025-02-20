@@ -18,6 +18,10 @@ interface AgendamentosValues {
   addAgendamento: (formData: any) => Promise<void>;
   editAgendamento: (formData: any, agendamentoId: string) => Promise<void>;
   deleteAgendamento: (agendamentoId: string) => Promise<void>;
+  isOpenEditAgendamento: boolean;
+  setIsOpenEditAgendamento: React.Dispatch<React.SetStateAction<boolean>>;
+  isOpenRemoveAgendamento: boolean; 
+  setIsOpenRemoveAgendamento: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface AgendamentoProviderProps {
@@ -28,6 +32,9 @@ export const AgendamentosListContext = createContext<AgendamentosValues>({} as A
 
 export const AgendamentosListProvider = ({ children }:AgendamentoProviderProps) => {
   const [agendamentos, setAgendamentos] = useState<Agendamento[]>([]);
+
+  const [isOpenEditAgendamento, setIsOpenEditAgendamento] = useState(false);
+  const [isOpenRemoveAgendamento, setIsOpenRemoveAgendamento] = useState(false);
  
   useEffect(() => {
     const getAgendamentosToList = async () => {
@@ -51,7 +58,7 @@ export const AgendamentosListProvider = ({ children }:AgendamentoProviderProps) 
       const newAgendamento = {
         ...formData,
       };
-      console.log(newAgendamento)
+      // console.log(newAgendamento)
 
       const { data } = await api.post("/agendamentos", newAgendamento
     );
@@ -70,16 +77,17 @@ export const AgendamentosListProvider = ({ children }:AgendamentoProviderProps) 
 
   const deleteAgendamento = async (agendamentoId: string) => {
     try {
-
+      // console.log(agendamentoId)
+      
+      await api.delete(`/agendamentos/${agendamentoId}`
+      );
+      
+      setAgendamentos((agendamentoList) => agendamentoList.filter((agendamento) => agendamento.id !== agendamentoId));
+      
       toast.success("Agendamento deletado com sucesso", {
         theme: "dark",
         autoClose: 1500,
       });
-
-      await api.delete(`/agendamentos/${agendamentoId}`
-      );
-
-      setAgendamentos((agendamentoList) => agendamentoList.filter((agendamento) => agendamento.id !== agendamentoId));
 
     } catch (error) {
       console.log(error);
@@ -87,6 +95,8 @@ export const AgendamentosListProvider = ({ children }:AgendamentoProviderProps) 
   };
 
   const editAgendamento = async (formData: FormData, agendamentoId: string) => {
+    console.log(formData)
+    console.log(agendamentoId)
     try {
 
       const newAgendamento = {
@@ -125,7 +135,11 @@ export const AgendamentosListProvider = ({ children }:AgendamentoProviderProps) 
         setAgendamentos,
         addAgendamento,
         editAgendamento,
-        deleteAgendamento
+        deleteAgendamento,
+        isOpenEditAgendamento,
+        isOpenRemoveAgendamento,
+        setIsOpenEditAgendamento,
+        setIsOpenRemoveAgendamento,
       }}
     >
       {children}

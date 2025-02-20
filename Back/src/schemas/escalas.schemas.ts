@@ -1,5 +1,24 @@
 import { z } from "zod";
 
+// const escalaSchema = z.object({
+//     id: z.string(),
+//     nome: z.string(),
+//     descricao: z.string(),
+//     faixa_etaria: z.string(),
+//     limite: z.string(),
+//     data_escala: z.string(),
+//     data_turno: z.string(),
+//     data_registrada: z.string(),
+//     professores: z.array(
+//         z.object({
+//             id: z.string(),
+//             nome: z.string(),
+//             telefone: z.string(),
+//             data_registrada: z.string(),
+//         })
+//     ).optional(),
+// });
+
 const escalaSchema = z.object({
     id: z.string(),
     nome: z.string(),

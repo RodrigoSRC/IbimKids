@@ -3,10 +3,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { agendamentoSchema, TAgendamentoSchema } from "./schema";
 import { Input, Form, DatePicker, SelectPicker } from 'rsuite';
-import { StyledButton } from "../Button/Button";
+import { StyledButton } from "../../Button/Button";
 import { useContext, useEffect, useState } from "react";
-import { api } from "../../services/api";
-import { AgendamentosListContext } from "../../providers/AgendamentosListContext"
+import { api } from "../../../services/api";
+import { AgendamentosListContext } from "../../../providers/AgendamentosListContext"
 import isBefore from 'date-fns/isBefore';
 
 export const AgendamentoForm = () => {
@@ -95,15 +95,10 @@ export const AgendamentoForm = () => {
     
 
     return (
-            // <Form 
-            //     onSubmit={handleSubmit(createAgendamento)}
-            //     noValidate
-            // >
+
             <Form 
                 onSubmit={(event) => {
-                    // event?.preventDefault();
-                     // Evita o comportamento padrão
-                    handleSubmit(createAgendamento)(); // Chama o handleSubmit do React Hook Form com a função de criação
+                    handleSubmit(createAgendamento)();
                 }}
                 noValidate
             >

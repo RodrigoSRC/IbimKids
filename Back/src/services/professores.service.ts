@@ -34,12 +34,13 @@ export class ProfService {
         const profRepository = AppDataSource.getRepository(Professor);
     
         const profs = await profRepository.find(
-        //     {
-        //     relations: ["escalas"], // PRECISO CORRIGIR O SCHEMA
-        // }
+            {
+            relations: ["escalas"], // PRECISO CORRIGIR O SCHEMA
+        }
     );
 
-        return profs.map((prof) => profSchemaResponse.parse(prof));
+        // return profs.map((prof) => profSchemaResponse.parse(prof));
+        return profs
 
     }
 

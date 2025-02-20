@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { AgendamentoForm } from "../../components/AgendamentoComponents"
+import { AgendamentoForm } from "../../components/AgendamentoComponents/AddAgendamento"
 import { StyledContainer } from "./style"
 import { StyledLogo } from "../../styles/typography"
 

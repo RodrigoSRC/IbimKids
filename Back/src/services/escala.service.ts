@@ -27,15 +27,15 @@ export class EscalaService {
             throw new AppError("Não é possível agendar uma data passada", 400);
         }
 
-        const findEscala = await escalaRepository.findOne({
-            where: {
-                nome
-            }
-        })
+        // const findEscala = await escalaRepository.findOne({
+        //     where: {
+        //         nome
+        //     }
+        // })
 
-        if (findEscala) {
-            throw new AppError(`Escala com nome ${nome} já existe`, 404)
-        }
+        // if (findEscala) {
+        //     throw new AppError(`Escala com nome ${nome} já existe`, 404)
+        // }
 
         const findEscalaTurno = await escalaRepository.findOne({
             where: {
@@ -78,7 +78,8 @@ export class EscalaService {
         }
     );
     
-        return escalas.map((escala) => escalaSchemaResponse.parse(escala));
+        // return escalas.map((escala) => escalaSchemaResponse.parse(escala));
+        return escalas
     }
 
     async find(escalaId: string) {
