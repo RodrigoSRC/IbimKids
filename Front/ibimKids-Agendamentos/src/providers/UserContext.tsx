@@ -76,10 +76,10 @@ export const UserProvider = ({ children }: UserProviderProps) => {
               theme: "dark",
               autoClose: 1500,
             });
-
+            
             setTimeout(() => {setUser(response.data.user);} , 1500);
             const { token } = response.data
-
+            
             api.defaults.headers.common.Authorization = `Bearer ${token}`
             localStorage.setItem("@TOKEN", token)
             localStorage.setItem("@USERID", response.data.user.id)

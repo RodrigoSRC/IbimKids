@@ -1,24 +1,13 @@
-import { Dispatch, SetStateAction, useContext } from "react"
+import { useContext } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { TAgendamentoSchema, agendamentoSchema, handlePhone } from "./schema"
-import { Modal } from "../../../ProfessoresComponents/ProfessoresModals/Modal"
+import { TAgendamentoSchema, agendamentoSchema } from "./schema"
 import { AgendamentosListContext } from "../../../../providers/AgendamentosListContext"
-import { Form } from "./style"
-import { Input } from "../../../RegisterForm/_Input"
-import { StyledButton } from "../../../Button/Button";
-import { StyledTitle } from "../../../../styles/typography"
-// import { handlePhone } from "./schema"
+import { Button, Input, Form, Modal } from "rsuite"
+import { ModalEditTaskProps } from "./interface"
 
 
-interface ModalEditTaskProps {
-    toggleModalAgendamento: () => void;
-    setIsOpenEditAgendamento: Dispatch<SetStateAction<boolean>>;
-    agendamentoId: string;
-  }
-
-
-export const EditAgendamentoModal = ({ toggleModalAgendamento, setIsOpenEditAgendamento, agendamentoId  }: ModalEditTaskProps) => {
+export const EditAgendamentoModal = ({ isOpenEditAgendamento, setIsOpenEditAgendamento, agendamentoId  }: ModalEditTaskProps) => {
   const { register, handleSubmit, formState: {errors}   } = useForm<TAgendamentoSchema>({
     resolver: zodResolver(agendamentoSchema)
 })
@@ -41,57 +30,64 @@ export const EditAgendamentoModal = ({ toggleModalAgendamento, setIsOpenEditAgen
 
 
   return (
-      <Modal toggleModal={toggleModalAgendamento}>
+    <Modal open={isOpenEditAgendamento} onClose={() => setIsOpenEditAgendamento(false)}>
+    <Modal.Header>
+      <Modal.Title>Edite o <strong>Agendamento</strong></Modal.Title>
+    </Modal.Header>
 
-          <Form onSubmit={handleSubmit(onSubmit)}>
+      <Modal.Body>
+        <Form
+            onSubmit={(_, event) => {
+              event?.preventDefault();
+              handleSubmit(onSubmit)();
+            }}
+          >
 
-            <StyledTitle>Edite o agendamento</StyledTitle>
-            <Input 
-                title="nome da criança" 
-                type="text" 
-                defaultValue={currentAgendamento!.crianca_nome}
-                placeholder="Digite aqui o nome da criança" 
-                {...register("crianca_nome")} 
-                error={errors.crianca_nome as { message: string } | undefined}/>
-            <Input 
-                title="idade" 
-                type="text" 
-                defaultValue={currentAgendamento!.crianca_idade}
-                placeholder="Digite aqui a idade da criança" 
-                {...register("crianca_idade")} 
-                error={errors.crianca_idade as { message: string } | undefined}/>
-            <Input 
-                title="responsável" 
-                type="text" 
-                defaultValue={currentAgendamento!.responsavel_nome}
-                placeholder="Digite aqui o responsável da criança" 
-                {...register("responsavel_nome")} 
-                error={errors.responsavel_nome as { message: string } | undefined}/>
-            <Input 
-                title="observação" 
-                type="text" 
-                defaultValue={currentAgendamento!.observacao}
-                placeholder="Alguma observação?" 
-                {...register("observacao")} 
-                error={errors.observacao as { message: string } | undefined}/>
-
-
+              
               <Input 
-                id="telefone"
-                title="Contato" 
-                type="text" 
-                defaultValue={currentAgendamento!.telefone}
-                // onKeyUp={
-                //   handlePhone
-                // } 
-                minLength={10}
-                maxLength={12}
-                placeholder="Digite aqui o contato" 
-                {...register("telefone")} 
-                error={errors.telefone as { message: string } | undefined}/>
+                  title="nome da criança" 
+                  type="text" 
+                  defaultValue={currentAgendamento!.crianca_nome}
+                  placeholder="Digite aqui o nome da criança" 
+                  {...register("crianca_nome")} 
+                  error={errors.crianca_nome as { message: string } | undefined}/>
+              <Input 
+                  title="idade" 
+                  type="text" 
+                  defaultValue={currentAgendamento!.crianca_idade}
+                  placeholder="Digite aqui a idade da criança" 
+                  {...register("crianca_idade")} 
+                  error={errors.crianca_idade as { message: string } | undefined}/>
+              <Input 
+                  title="responsável" 
+                  type="text" 
+                  defaultValue={currentAgendamento!.responsavel_nome}
+                  placeholder="Digite aqui o responsável da criança" 
+                  {...register("responsavel_nome")} 
+                  error={errors.responsavel_nome as { message: string } | undefined}/>
+              <Input 
+                  title="observação" 
+                  type="text" 
+                  defaultValue={currentAgendamento!.observacao}
+                  placeholder="Alguma observação?" 
+                  {...register("observacao")} 
+                  error={errors.observacao as { message: string } | undefined}/>
 
-              <StyledButton type="submit">Editar agendamento</StyledButton>
-          </Form>
+
+                <Input 
+                  id="telefone"
+                  title="Contato" 
+                  type="text" 
+                  defaultValue={currentAgendamento!.telefone}
+                  minLength={10}
+                  maxLength={12}
+                  placeholder="Digite aqui o contato" 
+                  {...register("telefone")} 
+                  error={errors.telefone as { message: string } | undefined}/>
+
+                <Button appearance="primary" type="submit">Editar agendamento</Button>
+            </Form>
+          </Modal.Body>
       </Modal>
   )
 }

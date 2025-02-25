@@ -58,7 +58,6 @@ export const AgendamentosListProvider = ({ children }:AgendamentoProviderProps) 
       const newAgendamento = {
         ...formData,
       };
-      // console.log(newAgendamento)
 
       const { data } = await api.post("/agendamentos", newAgendamento
     );

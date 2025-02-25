@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { TProfessorSchema, professorSchema } from "./schema"
@@ -6,16 +6,6 @@ import { Modal, Input, Form, Button } from "rsuite";
 import { ProfessoresListContext } from "../../../../providers/ProfessoresListContext"
 import { ModalAddTaskProps } from "./interface"; 
 import "rsuite/dist/rsuite.min.css";
-// import { Modal } from "../Modal"
-// import { Form } from "./style"
-// import { Input } from "../../../RegisterForm/_Input"
-// import { StyledButton } from "../../../Button/Button"
-// import { StyledTitle } from "../../../../styles/typography"
-// import 'jquery-mask-plugin';
-// import { handlePhone } from "./schema"
-
-
-
 
 
 export const AddProfessorModal = ({ isOpenAddProf, setIsOpenAddProf }: ModalAddTaskProps) => {
@@ -25,7 +15,6 @@ export const AddProfessorModal = ({ isOpenAddProf, setIsOpenAddProf }: ModalAddT
   const { addProfessor } = useContext(ProfessoresListContext)
 
   const createProfessor = async (data: TProfessorSchema) => {
-    console.log("addProf")
     addProfessor(data)
     setIsOpenAddProf(false)
   }

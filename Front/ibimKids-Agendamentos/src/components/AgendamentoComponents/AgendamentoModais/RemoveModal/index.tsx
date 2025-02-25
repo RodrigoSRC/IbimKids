@@ -1,19 +1,13 @@
-import { Dispatch, SetStateAction, useContext } from "react"
-import { Modal } from "../../../EscalasComponents/EscalasModals/Modal"
+import { useContext } from "react"
 import { AgendamentosListContext } from "../../../../providers/AgendamentosListContext"
-import { StyledTitle } from "../../../../styles/typography"
-import { Div } from "./style";
-
-interface ModalEditTaskProps {
-    toggleModalAgendamento: () => void;
-    setIsOpenRemoveAgendamento: Dispatch<SetStateAction<boolean>>;
-    agendamentoId: string;
-  }
+import {
+  Button, Form, Modal
+} from 'rsuite';
+import { ModalEditTaskProps } from "./interface";
 
 
-export const RemoveAgendamentoModal = ({ toggleModalAgendamento, setIsOpenRemoveAgendamento, agendamentoId  }: ModalEditTaskProps) => {
+export const RemoveAgendamentoModal = ({ isOpenRemoveAgendamento, setIsOpenRemoveAgendamento, agendamentoId  }: ModalEditTaskProps) => {
   const { deleteAgendamento } = useContext(AgendamentosListContext)
-  console.log(agendamentoId)
 
 
   const onSubmit = async () => {
@@ -27,15 +21,27 @@ export const RemoveAgendamentoModal = ({ toggleModalAgendamento, setIsOpenRemove
 
 
   return (
-      <Modal toggleModal={toggleModalAgendamento}>
-        <Div>
+    <Modal
+      open={isOpenRemoveAgendamento}
+      onClose={() => setIsOpenRemoveAgendamento(false)}
+    >
+      <Modal.Header>
+        <Modal.Title>Deseja mesmo excluir esse <strong>Agendamento</strong>?</Modal.Title>
+      </Modal.Header>
 
-          <StyledTitle>Deseja mesmo excluir esse Agendamento?</StyledTitle>
-          <button onClick={() => onSubmit()}>Sim</button>
-          <button onClick={() => setIsOpenRemoveAgendamento(false)}>Não</button>
-        </Div>
-
-
-      </Modal>
-  )
-}
+      <Modal.Body>
+        <Form>
+          <Button appearance="primary" onClick={() => onSubmit()}>
+            Sim
+          </Button>
+          <Button
+            appearance="link"
+            onClick={() => setIsOpenRemoveAgendamento(false)}
+          >
+            Não
+          </Button>
+        </Form>
+      </Modal.Body>
+    </Modal>
+  );
+};

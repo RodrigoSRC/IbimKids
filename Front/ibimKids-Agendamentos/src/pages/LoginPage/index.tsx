@@ -1,5 +1,5 @@
 
-import { LoginForm } from "../../components/LoginForm"
+import { LoginForm } from "../../components/Formulários/LoginForm"
 import { StyledContainer } from "./style"
 import { StyledLogo } from "../../styles/typography"
 

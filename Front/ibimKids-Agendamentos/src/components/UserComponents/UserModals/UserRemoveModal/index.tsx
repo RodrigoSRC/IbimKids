@@ -1,18 +1,10 @@
-import { Dispatch, SetStateAction, useContext } from "react"
-import { Modal } from "../Modal"
+import { useContext } from "react"
 import { UserContext } from "../../../../providers/UserContext"
-import { StyledTitle } from "../../../../styles/typography"
-import { Form } from "./style";
+import { ModalEditTaskProps } from "./interface";
+import { Form, Modal, Button } from "rsuite";
 
 
-interface ModalEditTaskProps {
-  toggleModalUser: () => void;
-    setIsOpenRemoveUser: Dispatch<SetStateAction<boolean>>;
-    clientId: string;
-  }
-
-
-export const RemoveUserModal = ({ toggleModalUser, setIsOpenRemoveUser, clientId  }: ModalEditTaskProps) => {
+export const RemoveUserModal = ({ isOpenRemoveUser, setIsOpenRemoveUser, clientId  }: ModalEditTaskProps) => {
   const { deleteUser } = useContext(UserContext)
 
 
@@ -27,13 +19,24 @@ export const RemoveUserModal = ({ toggleModalUser, setIsOpenRemoveUser, clientId
 
 
   return (
-      <Modal toggleModal={toggleModalUser}>
+      <Modal open={isOpenRemoveUser} onClose={() => setIsOpenRemoveUser(false)}>
+        <Modal.Header>
+          <Modal.Title>Deseja mesmo excluir esse <strong>Usuário</strong>?</Modal.Title>
+        </Modal.Header>
+        
+        <Modal.Body>
         <Form>
-          <StyledTitle>Deseja mesmo excluir seu usuário?</StyledTitle>
-          <button onClick={() => onSubmit()}>Sim</button>
-          <button onClick={() => setIsOpenRemoveUser(false)}>Não</button>
-
+          <Button appearance="primary" onClick={() => onSubmit()}>
+            Sim
+          </Button>
+          <Button
+            appearance="link"
+            onClick={() => setIsOpenRemoveUser(false)}
+          >
+            Não
+          </Button>
         </Form>
+      </Modal.Body>
 
 
       </Modal>

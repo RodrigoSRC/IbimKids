@@ -1,35 +1,18 @@
-import { Dispatch, SetStateAction, useContext, useState, useEffect } from "react"
+import { useContext, useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { TEscalaSchema, escalaSchema } from "./schema"
-import { Modal } from "../Modal"
 import { EscalasListContext } from "../../../../providers/EscalasListContext"
-import { Form } from "./style"
-import { Input } from "../../../RegisterForm/_Input"
-import { StyledButton } from "../../../Button/Button";
-import { StyledTitle } from "../../../../styles/typography"
 import { api }from "../../../../services/api";
 import {
-  TagPicker
+  TagPicker, Input, Button, Form, Modal
 } from 'rsuite';
 import 'rsuite/dist/rsuite.min.css';
 import { ProfessoresListContext } from "../../../../providers/ProfessoresListContext"
+import { ModalEditTaskProps, Professor } from "./interface"
 
 
-interface ModalEditTaskProps {
-    toggleModalEscala: () => void;
-    setIsOpenEdit: Dispatch<SetStateAction<boolean>>;
-    escalaId: string;
-  }
-
-  interface Professor {
-    id: string;
-    nome: string;
-    telefone: string;
-    data_registrada: string;
-  }
-
-export const EditEscalaModal = ({ toggleModalEscala, setIsOpenEdit, escalaId  }: ModalEditTaskProps) => {
+export const EditEscalaModal = ({ isOpenEditEscala, setIsOpenEdit, escalaId  }: ModalEditTaskProps) => {
   const { register, handleSubmit, formState: {errors}, setValue   } = useForm<TEscalaSchema>({
     resolver: zodResolver(escalaSchema), mode: "onChange"
 })
@@ -44,7 +27,6 @@ export const EditEscalaModal = ({ toggleModalEscala, setIsOpenEdit, escalaId  }:
       
           try {
             const { data } = await api.get(`/escalas/${escalaId}`);
-            console.log(data)
       
             setValue("nome", data.nome);
             setValue("faixa_etaria", data.faixa_etaria);
@@ -69,7 +51,6 @@ export const EditEscalaModal = ({ toggleModalEscala, setIsOpenEdit, escalaId  }:
       
 
   const currentEscala = escalas.find(escala => escala.id === escalaId)
-  // console.log(currentEscala)
 
 
   const onSubmit = async (data: TEscalaSchema, e: any) => {
@@ -84,11 +65,18 @@ export const EditEscalaModal = ({ toggleModalEscala, setIsOpenEdit, escalaId  }:
 
 
   return (
-      <Modal toggleModal={toggleModalEscala} blockClosing={isTagPickerOpen}>
+      <Modal open={isOpenEditEscala} onClose={() => setIsOpenEdit(false)}>
+          <Modal.Header>
+            <Modal.Title>Adicionar Nova Escala</Modal.Title>
+          </Modal.Header>
 
-          <Form onSubmit={handleSubmit(onSubmit)}>
-
-            <StyledTitle>Edite a escala</StyledTitle>
+          <Modal.Body>
+            <Form
+              onSubmit={(_, event) => {
+                event?.preventDefault();
+                handleSubmit(onSubmit)();
+              }}
+            >
               <TagPicker
                 size="lg"
                 block
@@ -164,8 +152,9 @@ export const EditEscalaModal = ({ toggleModalEscala, setIsOpenEdit, escalaId  }:
                 {...register("descricao")} 
                 error={errors.descricao as { message: string } | undefined}/>   
 
-              <StyledButton type="submit">Editar escala</StyledButton>
+              <Button appearance="primary" type="submit">Editar escala</Button>
           </Form>
+        </Modal.Body>
       </Modal>
   )
 }

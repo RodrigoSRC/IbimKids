@@ -3,11 +3,11 @@ import { StyledContainer } from "./style";
 
 // import { AddEscalaModal } from "../../components/EscalasComponents/EscalasModals/EscalaAddModal";
 import { EditEscalaModal } from "../../components/EscalasComponents/EscalasModals/EscalaEditModal";
-import { RemoveEscalaModal } from "../../components/EscalasComponents/EscalasModals/RemoveModal";
+import { RemoveEscalaModal } from "../../components/EscalasComponents/EscalasModals/EscalaRemoveModal";
 
-import { AddProfessorModal } from "../../components/ProfessoresComponents/ProfessoresModals/ProfessorAddModal";
-import { EditProfessorModal } from "../../components/ProfessoresComponents/ProfessoresModals/ProfessorEditModal";
-import { RemoveProfessorModal } from "../../components/ProfessoresComponents/ProfessoresModals/RemoveModal";
+import { AddProfessorModal } from "../../components/ProfessoresComponents/ProfessoresModals/ProfAddModal";
+import { EditProfessorModal } from "../../components/ProfessoresComponents/ProfessoresModals/ProfEditModal";
+import { RemoveProfessorModal } from "../../components/ProfessoresComponents/ProfessoresModals/ProfRemoveModal";
 
 import { EditAgendamentoModal } from "../../components/AgendamentoComponents/AgendamentoModais/EditModal";
 import { RemoveAgendamentoModal } from "../../components/AgendamentoComponents/AgendamentoModais/RemoveModal";
@@ -392,14 +392,14 @@ export const HomePage = () => {
 
         {isOpenEditEscala && (
           <EditEscalaModal
-            toggleModalEscala={toggleModalEditEscala}
+            isOpenEditEscala={isOpenEditEscala}
             setIsOpenEdit={setIsOpenEditEscala}
             escalaId={editingEscalaId || ""}
           />
         )}
         {isOpenRemoveEscala && (
           <RemoveEscalaModal
-            toggleModalEscala={toggleModalRemoveEscala}
+            isOpenRemoveEscala={isOpenRemoveEscala}
             setIsOpenRemoveEscala={setIsOpenRemoveEscala}
             escalaId={removingEscalaId || ""}
           />
@@ -414,14 +414,14 @@ export const HomePage = () => {
 
         {isOpenEditProf && (
           <EditProfessorModal
-            toggleModalProf={toggleModalEditProf}
+            isOpenEditProf={isOpenEditProf}
             setIsOpenEditProf={setIsOpenEditProf}
             professorId={editingProfessorId || ""}
           />
         )}
         {isOpenRemoveProf && (
           <RemoveProfessorModal
-            toggleModalProf={toggleModalRemoveProf}
+            isOpenRemoveProf={isOpenRemoveProf}
             setIsOpenRemoveProf={setIsOpenRemoveProf}
             professorId={removingProfessorId || ""}
           />
@@ -430,7 +430,7 @@ export const HomePage = () => {
 
         {isOpenEditAgendamento && (
           <EditAgendamentoModal
-            toggleModalAgendamento={toggleModalEditAgendamento}
+            isOpenEditAgendamento={isOpenEditAgendamento}
             setIsOpenEditAgendamento={setIsOpenEditAgendamento}
             agendamentoId={editingAgendamentoId || ""}
           />
@@ -438,7 +438,7 @@ export const HomePage = () => {
 
         {isOpenRemoveAgendamento && (
           <RemoveAgendamentoModal
-            toggleModalAgendamento={toggleModalRemoveAgendamento}
+            isOpenRemoveAgendamento={isOpenRemoveAgendamento}
             setIsOpenRemoveAgendamento={setIsOpenRemoveAgendamento}
             agendamentoId={removingAgendamentoId || ""}
           />
@@ -446,7 +446,7 @@ export const HomePage = () => {
 
         {isOpenEditUser && (
           <UserEditModal
-            toggleModalUser={toggleModalEditUser}
+            isOpenEditUser={isOpenEditUser}
             setIsOpenEditUser={setIsOpenEditUser}
             clientId={user.id || ""}
           />
@@ -454,7 +454,7 @@ export const HomePage = () => {
 
         {isOpenRemoveUser && (
           <RemoveUserModal
-            toggleModalUser={toggleModalRemoveUser}
+            isOpenRemoveUser={isOpenRemoveUser}
             setIsOpenRemoveUser={setIsOpenRemoveUser}
             clientId={user.id || ""}
           />

@@ -1,9 +1,9 @@
-import { SubmitHandler, FieldValues } from "react-hook-form";
-import { useForm } from "react-hook-form";
+// import { SubmitHandler, FieldValues } from "react-hook-form";
+import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { agendamentoSchema, TAgendamentoSchema } from "./schema";
-import { Input, Form, DatePicker, SelectPicker } from 'rsuite';
-import { StyledButton } from "../../Button/Button";
+import { Input, Form, DatePicker, SelectPicker, Button } from 'rsuite';
+// import { StyledButton } from "../../Button/Button";
 import { useContext, useEffect, useState } from "react";
 import { api } from "../../../services/api";
 import { AgendamentosListContext } from "../../../providers/AgendamentosListContext"
@@ -63,14 +63,12 @@ export const AgendamentoForm = () => {
 
     const createAgendamento: SubmitHandler<FieldValues> = async (data) => {
         const escalaSelecionada = findEscala(dataSelecionada, turnoSelecionado);
-        console.log(escalaSelecionada)
     
         if (escalaSelecionada) {
             const formData = {
                 ...data,
                 escalaId: escalaSelecionada.id, // Incluindo o ID da escala no formData
             };
-            console.log(formData)
             
             addAgendamento(formData);
         } else {
@@ -234,7 +232,7 @@ export const AgendamentoForm = () => {
                 />
             </Form.Group>
 
-            <StyledButton type="submit">Agendar</StyledButton>
+            <Button appearance="primary" type="submit">Agendar</Button>
         </Form>
     );
 };

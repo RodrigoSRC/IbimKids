@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import { api } from "../services/api";
-import { Escala } from "../pages/HomePage";
+import { Escala } from "../pages/HomePage/interface";
 import { toast } from "react-toastify"
 
 interface FormData {
