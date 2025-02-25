@@ -5,7 +5,7 @@ import { TProfessorSchema, professorSchema } from "./schema"
 import { Modal } from "../Modal"
 import { ProfessoresListContext } from "../../../../providers/ProfessoresListContext"
 import { Form } from "./style"
-import { Input } from "../../../RegisterForm/Input"
+import { Input } from "../../../RegisterForm/_Input"
 import { StyledButton } from "../../../Button/Button";
 import { StyledTitle } from "../../../../styles/typography"
 import { handlePhone } from "./schema"

@@ -1,7 +1,7 @@
 import { StyledTitle } from "../../styles/typography";
 import { StyledContainer } from "./style";
 
-import { AddEscalaModal } from "../../components/EscalasComponents/EscalasModals/EscalaAddModal";
+// import { AddEscalaModal } from "../../components/EscalasComponents/EscalasModals/EscalaAddModal";
 import { EditEscalaModal } from "../../components/EscalasComponents/EscalasModals/EscalaEditModal";
 import { RemoveEscalaModal } from "../../components/EscalasComponents/EscalasModals/RemoveModal";
 
@@ -28,45 +28,20 @@ import { FaTrashAlt } from "react-icons/fa";
 import { StyledLogo } from "../../styles/typography";
 import { ProfessoresListContext } from "../../providers/ProfessoresListContext";
 import { AgendamentosListContext } from "../../providers/AgendamentosListContext";
-import isBefore from 'date-fns/isBefore';
+
+import { ProfessoresTable } from "../../components/Tabelas/Professores";
+import { AgendamentosTable } from "../../components/Tabelas/Agendamentos";
+import { AddEscalaModal } from "../../components/EscalasComponents/EscalasModals/EscalaAddModal";
 
 import {
   Calendar,
   List,
   Badge,
   HStack,
-  IconButton,
-  Table,
-  Button,
-  Content,
+  IconButton
 } from "rsuite";
-const { Column, HeaderCell, Cell } = Table;
+import {Escala, Agendamento, Professor} from "./interface"
 
-export interface Escala {
-  id: string;
-  nome: string;
-  descricao: string;
-  faixa_etaria: string;
-  limite: string;
-  data_escala: string;
-  data_turno: string;
-  // professores: [];
-}
-
-export interface Professor {
-  id: string;
-  nome: string;
-  telefone: string;
-}
-
-export interface Agendamento {
-  id: string;
-  crianca_nome: string;
-  crianca_idade: string;
-  responsavel_nome: string;
-  telefone: string;
-  observacao: string;
-}
 
 export const HomePage = () => {
   const {
@@ -134,7 +109,6 @@ export const HomePage = () => {
       setProfessores(responseProf.data);
 
       const responseAgendamento = await api.get("/agendamentos");
-      console.log(responseAgendamento.data);
       setAgendamentos(responseAgendamento.data);
     })();
   }, []);
@@ -175,7 +149,6 @@ export const HomePage = () => {
     };
     
     const handleEditAgendamento = (agendamento: Agendamento) => {
-        console.log(agendamento)
       setEditingAgendamentoId(agendamento.id);
       toggleModalEditAgendamento();
     };
@@ -329,67 +302,11 @@ export const HomePage = () => {
             />
           </section>
 
-          <Table
-            height={400}
-            // width={700}
-            data={professores}
-            onRowClick={(rowData) => {
-              console.log(rowData);
-            }}
-          >
-            <Column width={200} align="center" fixed>
-              <HeaderCell>Nome</HeaderCell>
-              <Cell dataKey="nome" />
-            </Column>
-            <Column width={200} align="center" fixed>
-              <HeaderCell>Telefone</HeaderCell>
-              <Cell dataKey="telefone" />
-            </Column>
-            <Column width={200} align="center" fixed>
-              <HeaderCell>Data Registrada</HeaderCell>
-              <Cell dataKey="data_registrada">
-                {(rowData) =>
-                  new Date(rowData.data_registrada).toLocaleDateString("pt-BR")
-                }
-              </Cell>
-            </Column>
-            <Column width={200} align="center" fixed>
-              <HeaderCell>N° de escalas</HeaderCell>
-              <Cell>{(rowData) => rowData.escalas?.length || 0}</Cell>
-            </Column>
-            <Column flexGrow={1}>
-              <HeaderCell>&nbsp;</HeaderCell>
-              <Cell></Cell>
-            </Column>
-
-            <Column width={100} align="center" fixed>
-              <HeaderCell>Editar</HeaderCell>
-              <Cell>
-                {(rowData) => (
-                  <MdEdit
-                    style={{ width: "20px", height: "20px", cursor: "pointer" }}
-                    onClick={() => handleEditProfessor(rowData as Professor)}
-                  />
-                )}
-              </Cell>
-            </Column>
-
-            <Column width={100} align="center" fixed>
-              <HeaderCell>Excluir</HeaderCell>
-              <Cell>
-                {(rowData) => (
-                  <FaTrashAlt
-                    style={{ width: "15px", height: "15px", cursor: "pointer" }}
-                    onClick={() => handleRemoveProfessor(rowData as Professor)}
-                  />
-                )}
-              </Cell>
-            </Column>
-            {/* <Column flexGrow={1}>
-              <HeaderCell>&nbsp;</HeaderCell>
-              <Cell></Cell>
-            </Column> */}
-          </Table>
+          <ProfessoresTable
+            professores={professores}
+            onEdit={handleEditProfessor}
+            onRemove={handleRemoveProfessor}
+          />
 
           <section>
             <StyledTitle>
@@ -398,7 +315,7 @@ export const HomePage = () => {
 
             {/* <FaPlusCircle style={{ width: '20px', height: '20px', cursor: 'pointer'}} type="button" onClick={toggleModalAddProf}/> */}
           </section>
-          <Table
+          {/* <Table
             height={400}
             // width={700}
             data={agendamentos}
@@ -426,14 +343,7 @@ export const HomePage = () => {
               <HeaderCell>Observação</HeaderCell>
               <Cell dataKey="observacao" />
             </Column>
-            {/* <Column width={200} align="center" fixed>
-              <HeaderCell>Data Registrada</HeaderCell>
-              <Cell dataKey="data_registrada">
-                {(rowData) =>
-                  new Date(rowData.data_registrada).toLocaleDateString("pt-BR")
-                }
-              </Cell>
-            </Column> */}
+
             <Column flexGrow={1}>
               <HeaderCell>&nbsp;</HeaderCell>
               <Cell></Cell>
@@ -465,12 +375,17 @@ export const HomePage = () => {
               </Cell>
             </Column>
 
-          </Table>
+          </Table> */}
+          <AgendamentosTable 
+            agendamentos={agendamentos}
+            onEdit={handleEditAgendamento}
+            onRemove={handleRemoveAgendamento}
+          />
         </div>
 
         {isOpenAddEscala && (
           <AddEscalaModal
-            toggleModalEscala={toggleModalAddEscala}
+            isOpenAddEscala={isOpenAddEscala}
             setIsOpenAddEscala={setIsOpenAddEscala}
           />
         )}
@@ -492,7 +407,7 @@ export const HomePage = () => {
 
         {isOpenAddProf && (
           <AddProfessorModal
-            toggleModalProf={toggleModalAddProf}
+            isOpenAddProf={isOpenAddProf}
             setIsOpenAddProf={setIsOpenAddProf}
           />
         )}

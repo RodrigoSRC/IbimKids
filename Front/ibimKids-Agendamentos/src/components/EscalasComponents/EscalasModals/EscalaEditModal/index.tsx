@@ -5,7 +5,7 @@ import { TEscalaSchema, escalaSchema } from "./schema"
 import { Modal } from "../Modal"
 import { EscalasListContext } from "../../../../providers/EscalasListContext"
 import { Form } from "./style"
-import { Input } from "../../../RegisterForm/Input"
+import { Input } from "../../../RegisterForm/_Input"
 import { StyledButton } from "../../../Button/Button";
 import { StyledTitle } from "../../../../styles/typography"
 import { api }from "../../../../services/api";

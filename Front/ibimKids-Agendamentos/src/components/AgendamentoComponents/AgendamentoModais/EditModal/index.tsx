@@ -5,7 +5,7 @@ import { TAgendamentoSchema, agendamentoSchema, handlePhone } from "./schema"
 import { Modal } from "../../../ProfessoresComponents/ProfessoresModals/Modal"
 import { AgendamentosListContext } from "../../../../providers/AgendamentosListContext"
 import { Form } from "./style"
-import { Input } from "../../../RegisterForm/Input"
+import { Input } from "../../../RegisterForm/_Input"
 import { StyledButton } from "../../../Button/Button";
 import { StyledTitle } from "../../../../styles/typography"
 // import { handlePhone } from "./schema"
@@ -31,7 +31,7 @@ export const EditAgendamentoModal = ({ toggleModalAgendamento, setIsOpenEditAgen
     console.log("submit")
     e.preventDefault()
     try {
-      // console.log(2)
+      
       await editAgendamento(data, agendamentoId);
       setIsOpenEditAgendamento(false);
     } catch (error) {

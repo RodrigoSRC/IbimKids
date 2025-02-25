@@ -134,7 +134,7 @@ import { SubmitHandler, FieldValues  } from "react-hook-form";
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerFormSchema, handlePhone } from "./schema";
-import { Input } from "./Input";
+import { Input } from "./_Input";
 import { Form } from "./style";
 import { StyledButton } from "../Button/Button";
 import { useContext } from "react";

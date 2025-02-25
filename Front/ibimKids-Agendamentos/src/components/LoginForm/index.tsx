@@ -2,7 +2,7 @@ import { SubmitHandler  } from "react-hook-form";
 import { Link } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../RegisterForm/Input";
+import { Input } from "../RegisterForm/_Input";
 import { loginFormSchema } from "./loginFormSchema";
 import { Form } from "./style";
 import { StyledButton } from "../Button/Button";
