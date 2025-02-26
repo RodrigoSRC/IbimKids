@@ -54,7 +54,7 @@ export const EditEscalaModal = ({ isOpenEditEscala, setIsOpenEdit, escalaId  }: 
 
 
   const onSubmit = async (data: TEscalaSchema, e: any) => {
-    e.preventDefault()
+    // e.preventDefault()
     try {
       await editEscala(data, escalaId);
       setIsOpenEdit(false);

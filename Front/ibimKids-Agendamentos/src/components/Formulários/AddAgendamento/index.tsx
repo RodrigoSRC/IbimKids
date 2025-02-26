@@ -56,6 +56,22 @@ export const AgendamentoForm = () => {
         fetchEscalas();
     }, []);
 
+    
+    // Atualiza os turnos ao selecionar uma data
+    useEffect(() => {
+        if (dataSelecionada) {
+            const turnos = escalas
+                .filter(item => item.data_escala === dataSelecionada)
+                .map(item => item.data_turno);
+            
+            setTurnosDisponiveis(Array.from(new Set(turnos))); // Remove duplicatas
+        } else {
+            setTurnosDisponiveis([]);
+        }
+    }, [dataSelecionada, escalas]);
+
+
+
     const findEscala = (dataSelecionada: string | null, turnoSelecionado: string | null) => {
         if (!dataSelecionada || !turnoSelecionado) return null;
         return escalas.find(escala => escala.data_escala === dataSelecionada && escala.data_turno === turnoSelecionado);
@@ -75,21 +91,6 @@ export const AgendamentoForm = () => {
             console.error("Escala não encontrada para a data e turno selecionados");
         }
     };
-    
-
-
-    // Atualiza os turnos ao selecionar uma data
-    useEffect(() => {
-        if (dataSelecionada) {
-            const turnos = escalas
-                .filter(item => item.data_escala === dataSelecionada)
-                .map(item => item.data_turno);
-            
-            setTurnosDisponiveis(Array.from(new Set(turnos))); // Remove duplicatas
-        } else {
-            setTurnosDisponiveis([]);
-        }
-    }, [dataSelecionada, escalas]);
     
 
     return (
