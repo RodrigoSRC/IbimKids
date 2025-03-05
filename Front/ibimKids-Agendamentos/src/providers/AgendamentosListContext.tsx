@@ -1,11 +1,11 @@
 import React, { createContext, useState, useEffect } from "react";
 import { api } from "../services/api";
-import { Agendamento } from "../pages/HomePage";
+import { Agendamento } from "../pages/Home/interface";
 import { toast } from "react-toastify"
 
 interface FormData {
     crianca_nome: string;
-    crianca_idade: string;
+    // crianca_idade: string;
     responsavel_nome: string;
     telefone: string;
     observacao: string;
@@ -69,14 +69,22 @@ export const AgendamentosListProvider = ({ children }:AgendamentoProviderProps) 
       autoClose: 1500,
     });
       
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    } catch (error: any) {
+          console.error(error);
+    
+          const errorMessage =
+          error.response?.data?.message ||
+          "Erro ao adicionar agendamento. Tente novamente.";
+    
+        toast.error(errorMessage, {
+          theme: "dark",
+          autoClose: 2000,
+        });
+        }
+      };
 
   const deleteAgendamento = async (agendamentoId: string) => {
     try {
-      // console.log(agendamentoId)
       
       await api.delete(`/agendamentos/${agendamentoId}`
       );
@@ -88,14 +96,21 @@ export const AgendamentosListProvider = ({ children }:AgendamentoProviderProps) 
         autoClose: 1500,
       });
 
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    } catch (error: any) {
+          console.error(error);
+    
+          const errorMessage =
+          error.response?.data?.message ||
+          "Erro ao deletar agendamento. Tente novamente.";
+    
+        toast.error(errorMessage, {
+          theme: "dark",
+          autoClose: 2000,
+        });
+        }
+      };
 
   const editAgendamento = async (formData: FormData, agendamentoId: string) => {
-    console.log(formData)
-    console.log(agendamentoId)
     try {
 
       const newAgendamento = {
@@ -121,10 +136,19 @@ export const AgendamentosListProvider = ({ children }:AgendamentoProviderProps) 
         agendamentos.map((agendamento) => agendamento.id === agendamentoId ? { ...agendamento, ...data } : agendamento
         )
       );
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    } catch (error: any) {
+          console.error(error);
+    
+          const errorMessage =
+          error.response?.data?.message ||
+          "Erro ao editar agendamento. Tente novamente.";
+    
+        toast.error(errorMessage, {
+          theme: "dark",
+          autoClose: 2000,
+        });
+        }
+      };
   
 
   return (

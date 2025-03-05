@@ -1,7 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne } from "typeorm";
 import { Escala } from "./escalas.entity";
 
-
 @Entity('agendamentos')
 class Agendamento {
     @PrimaryGeneratedColumn('uuid')
@@ -9,9 +8,6 @@ class Agendamento {
 
     @Column()
     crianca_nome: string;
-    
-    @Column()
-    crianca_idade: string;
 
     @Column()
     responsavel_nome: string;
@@ -25,8 +21,9 @@ class Agendamento {
     @CreateDateColumn({ type: "date" })
     data_registrada: string;
 
-    @ManyToOne(() => Escala, { onDelete: 'SET NULL', nullable: true })
+    @ManyToOne(() => Escala, escala => escala.agendamentos, { onDelete: 'SET NULL', nullable: true })
     escala: Escala | null;
+
 
 }
 

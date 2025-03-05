@@ -5,7 +5,9 @@ import { TEscalaSchema, escalaSchema } from "./schema"
 import { EscalasListContext } from "../../../../providers/EscalasListContext"
 import { api }from "../../../../services/api";
 import {
-  TagPicker, Input, Button, Form, Modal
+  TagPicker, Input, Button, Form, Modal,
+  Radio,
+  RadioGroup
 } from 'rsuite';
 import 'rsuite/dist/rsuite.min.css';
 import { ProfessoresListContext } from "../../../../providers/ProfessoresListContext"
@@ -13,7 +15,7 @@ import { ModalEditTaskProps, Professor } from "./interface"
 
 
 export const EditEscalaModal = ({ isOpenEditEscala, setIsOpenEdit, escalaId  }: ModalEditTaskProps) => {
-  const { register, handleSubmit, formState: {errors}, setValue   } = useForm<TEscalaSchema>({
+  const { register, handleSubmit, watch, formState: {errors}, setValue   } = useForm<TEscalaSchema>({
     resolver: zodResolver(escalaSchema), mode: "onChange"
 })
   const { editEscala, escalas } = useContext(EscalasListContext)
@@ -99,16 +101,25 @@ export const EditEscalaModal = ({ isOpenEditEscala, setIsOpenEdit, escalaId  }: 
                 {...register("nome")} 
                 error={errors.nome as { message: string } | undefined}/>
 
-              <Input 
-                title="Faixa Etária" 
-                type="text" 
-                // onKeyUp={
-                //   handlePhone
-                // } 
-                defaultValue={currentEscala!.faixa_etaria}
-                placeholder="Digite aqui a faixa etária" 
-                {...register("faixa_etaria")} 
-                error={errors.faixa_etaria as { message: string } | undefined}/>   
+              <Form.Group controlId="crianca_idade">
+                <RadioGroup
+                  name="faixa_etaria"
+                  inline
+                  defaultValue={currentEscala!.faixa_etaria}
+                  value={watch("faixa_etaria")} // Certifica que o valor selecionado está atualizado
+                  onChange={(value) => setValue("faixa_etaria", value, { shouldValidate: true })}
+                >
+                  <Radio value="BERÇARIO">1 a 3 anos</Radio>
+                  <Radio value="INFANTIL">3 a 5 anos</Radio>
+                  <Radio value="JUVENIL">5 a 10 anos</Radio>
+                </RadioGroup>
+
+                {errors.faixa_etaria?.message && (
+                  <Form.HelpText style={{ color: "red" }}>
+                    {errors.faixa_etaria.message}
+                  </Form.HelpText>
+                )}
+              </Form.Group>
 
 
               <Input 

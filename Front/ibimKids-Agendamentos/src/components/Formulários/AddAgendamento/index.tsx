@@ -2,7 +2,7 @@
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { agendamentoSchema, TAgendamentoSchema } from "./schema";
-import { Input, Form, DatePicker, SelectPicker, Button } from 'rsuite';
+import { Input, Form, DatePicker, SelectPicker, Button, Radio, RadioGroup } from 'rsuite';
 // import { StyledButton } from "../../Button/Button";
 import { useContext, useEffect, useState } from "react";
 import { api } from "../../../services/api";
@@ -13,6 +13,8 @@ export const AgendamentoForm = () => {
     const { 
         register, 
         handleSubmit, 
+        // watch, 
+        // setValue,
         formState: { errors }  
     } = useForm({
         resolver: zodResolver(agendamentoSchema)
@@ -36,13 +38,16 @@ export const AgendamentoForm = () => {
     const [datasDisponiveis, setDatasDisponiveis] = useState<string[]>([]);
     const [dataSelecionada, setDataSelecionada] = useState<string | null>(null);
     const [turnosDisponiveis, setTurnosDisponiveis] = useState<string[]>([]);
-    const [turnoSelecionado, setTurnoSelecionado] = useState<string | null>(null); // Estado para o turno selecionado
+    const [turnoSelecionado, setTurnoSelecionado] = useState<string | null>(null);
+    const [faixaEtariaDisponivel, setFaixaEtariaDisponivel] = useState<string[]>([]);
+    const [faixaEtaria, setfaixaEtaria] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchEscalas = async () => {
             try {
                 const { data } = await api.get<Escala[]>("/escalas");
                 console.log(data)
+
                 setEscalas(data);
 
                 // Extrai datas únicas disponíveis
@@ -60,11 +65,20 @@ export const AgendamentoForm = () => {
     // Atualiza os turnos ao selecionar uma data
     useEffect(() => {
         if (dataSelecionada) {
+            console.log(escalas)
             const turnos = escalas
                 .filter(item => item.data_escala === dataSelecionada)
                 .map(item => item.data_turno);
-            
+            // console.log(dataSelecionada)
             setTurnosDisponiveis(Array.from(new Set(turnos))); // Remove duplicatas
+            console.log(turnosDisponiveis)
+
+            // const faixaEtaria = escalas
+            //     .filter(item => item.faixa_etaria === dataSelecionada)
+            //     .map(item => item.faixa_etaria);
+            // // console.log(dataSelecionada)
+            // setFaixaEtariaDisponivel(Array.from(new Set(faixaEtaria))); // Remove duplicatas
+            // console.log(faixaEtariaDisponivel)
         } else {
             setTurnosDisponiveis([]);
         }
@@ -72,20 +86,21 @@ export const AgendamentoForm = () => {
 
 
 
-    const findEscala = (dataSelecionada: string | null, turnoSelecionado: string | null) => {
-        if (!dataSelecionada || !turnoSelecionado) return null;
-        return escalas.find(escala => escala.data_escala === dataSelecionada && escala.data_turno === turnoSelecionado);
+    const findEscala = (dataSelecionada: string | null, turnoSelecionado: string | null, faixaEtaria: string | null) => {
+        if (!dataSelecionada || !turnoSelecionado || !faixaEtaria) return null;
+        // console.log(escalas)
+        return escalas.find(escala => escala.data_escala === dataSelecionada && escala.data_turno === turnoSelecionado && escala.faixa_etaria === faixaEtaria);
     };
 
     const createAgendamento: SubmitHandler<FieldValues> = async (data) => {
-        const escalaSelecionada = findEscala(dataSelecionada, turnoSelecionado);
+        console.log(data)
+        const escalaSelecionada = findEscala(dataSelecionada, turnoSelecionado, faixaEtaria);
     
         if (escalaSelecionada) {
             const formData = {
                 ...data,
                 escalaId: escalaSelecionada.id, // Incluindo o ID da escala no formData
             };
-            
             addAgendamento(formData);
         } else {
             console.error("Escala não encontrada para a data e turno selecionados");
@@ -96,13 +111,12 @@ export const AgendamentoForm = () => {
     return (
 
             <Form 
-                onSubmit={(event) => {
+                onSubmit={(_, event) => {
+                    event?.preventDefault();
                     handleSubmit(createAgendamento)();
                 }}
                 noValidate
             >
-
-
 
             <Form.Group controlId="crianca_nome">
                 <Form.ControlLabel>Nome</Form.ControlLabel>
@@ -138,24 +152,6 @@ export const AgendamentoForm = () => {
                 )}
             </Form.Group>
 
-            <Form.Group controlId="crianca_idade">
-                <Form.ControlLabel>Idade</Form.ControlLabel>
-                <Form.Control 
-                    name="crianca_idade"
-                    accepter={Input}
-                    placeholder="Idade da criança"
-                    onChange={(value, event) => register("crianca_idade").onChange(event)}
-                    onBlur={register("crianca_idade").onBlur}
-                    inputRef={register("crianca_idade").ref}
-                />
-                {errors.nome?.message && (
-                <Form.HelpText style={{ color: "red" }}>
-                    {String(errors.nome.message)}
-                </Form.HelpText>
-                )}
-            </Form.Group>
-
-
             <Form.Group controlId="telefone">
                 <Form.ControlLabel>Contato</Form.ControlLabel>
                 <Form.Control 
@@ -174,39 +170,36 @@ export const AgendamentoForm = () => {
                 </Form.Group>
 
 
-                <Form.Group controlId="observacao">
-                <Form.ControlLabel>Observação (opcional)</Form.ControlLabel>
-                <Form.Control 
-                    name="observacao"
-                    accepter={Input}
-                    placeholder="Alguma observação?"
-                    onChange={(value, event) => register("observacao").onChange(event)}
-                    onBlur={register("observacao").onBlur}
-                    inputRef={register("observacao").ref}
-                />
-                {errors.nome?.message && (
-                <Form.HelpText style={{ color: "red" }}>
-                    {String(errors.nome.message)}
-                </Form.HelpText>
-                )}
-                </Form.Group>
+            <Form.Group controlId="faixa_etaria">
+            <RadioGroup
+                    name="faixa_etaria"
+                    inline
+                    value={faixaEtaria ?? undefined} // Certifica que o valor selecionado está atualizado
+                    onChange={(value) => setfaixaEtaria(value as string)}
+                    
+            >
+                <Radio value="BERÇARIO">1 a 3 anos</Radio>
+                <Radio value="INFANTIL">3 a 5 anos</Radio>
+                <Radio value="JUVENIL">5 a 10 anos</Radio>
+            </RadioGroup>
+            </Form.Group>
 
 
-                <Form.Group controlId="date">
-                <Form.ControlLabel>Data agendada</Form.ControlLabel>
-                <DatePicker 
-                    format="dd/MM/yyyy"
-                    placeholder="dia/mês/ano" 
-                    oneTap
-                    defaultValue={new Date()} 
-                    shouldDisableDate={date => isBefore(date, new Date())}
-                    value={dataSelecionada ? new Date(dataSelecionada) : null}
-                    onChange={(date: Date | null) => 
-                        setDataSelecionada(date ? date.toISOString().split('T')[0] : null)
-                    }
-                    renderCell={(date) => {
-                        const dateString = date.toISOString().split('T')[0]; 
-                        const isAvailable = datasDisponiveis.includes(dateString);
+            <Form.Group controlId="date">
+            <Form.ControlLabel>Data agendada</Form.ControlLabel>
+            <DatePicker 
+                format="dd/MM/yyyy"
+                placeholder="dia/mês/ano" 
+                oneTap
+                defaultValue={new Date()} 
+                shouldDisableDate={date => isBefore(date, new Date())}
+                value={dataSelecionada ? new Date(dataSelecionada) : null}
+                onChange={(date: Date | null) => 
+                    setDataSelecionada(date ? date.toISOString().split('T')[0] : null)
+                   }
+                  renderCell={(date) => {
+                    const dateString = date.toISOString().split('T')[0]; 
+                    const isAvailable = datasDisponiveis.includes(dateString);
 
                         return (
                             <div style={{
@@ -231,6 +224,23 @@ export const AgendamentoForm = () => {
                     value={turnoSelecionado}  // Estado para o turno selecionado
                     onChange={(value) => setTurnoSelecionado(value)} // Atualiza o estado ao selecionar o turno
                 />
+            </Form.Group>
+
+            <Form.Group controlId="observacao">
+                <Form.ControlLabel>Observação (opcional)</Form.ControlLabel>
+                <Form.Control 
+                    name="observacao"
+                    accepter={Input}
+                    placeholder="Alguma observação?"
+                    onChange={(value, event) => register("observacao").onChange(event)}
+                    onBlur={register("observacao").onBlur}
+                    inputRef={register("observacao").ref}
+                />
+                {errors.nome?.message && (
+                <Form.HelpText style={{ color: "red" }}>
+                    {String(errors.nome.message)}
+                </Form.HelpText>
+                )}
             </Form.Group>
 
             <Button appearance="primary" type="submit">Agendar</Button>

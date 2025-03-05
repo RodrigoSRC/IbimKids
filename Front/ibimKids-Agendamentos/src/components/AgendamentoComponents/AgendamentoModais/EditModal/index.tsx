@@ -16,11 +16,8 @@ export const EditAgendamentoModal = ({ isOpenEditAgendamento, setIsOpenEditAgend
   const currentAgendamento = agendamentos.find(agendamento => agendamento.id === agendamentoId)
 
 
-  const onSubmit = async (data: TAgendamentoSchema, e: any) => {
-    console.log("submit")
-    e.preventDefault()
+  const onSubmit = async (data: TAgendamentoSchema) => {
     try {
-      
       await editAgendamento(data, agendamentoId);
       setIsOpenEditAgendamento(false);
     } catch (error) {

@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
-import { LoginData } from "../pages/LoginPage/validator";
+import { LoginData } from "../pages/Login/validator";
 import { api } from "../services/api";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";

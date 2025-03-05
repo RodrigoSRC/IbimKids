@@ -1,7 +1,7 @@
 import { Table } from "rsuite";
 import { MdEdit } from "react-icons/md";
 import { FaTrashAlt } from "react-icons/fa";
-import { Professor } from "../../../pages/HomePage/interface";
+import { Professor } from "../../../pages/Home/interface";
 
 const { Column, HeaderCell, Cell } = Table;
 

@@ -1,20 +1,20 @@
 import { Link } from "react-router-dom"
-import { AgendamentoForm } from "../../components/Formulários/AddAgendamento"
+import { RegisterForm } from "../../components/Formulários/RegisterForm"
 import { StyledContainer } from "./style"
 import { StyledLogo } from "../../styles/typography"
 
 
-export const AgendamentoPage = () => {
+export const RegisterPage = () => {
     return(
         <StyledContainer>
             <div className="formBox">
                 <div className="navBar">
-                    <StyledLogo>Ibim <span>Kids</span> Agendamentos</StyledLogo>
+                    <StyledLogo>Ibim <span>Kids</span> Escalas</StyledLogo>
 
                     <Link to="/">Voltar</Link>
                 </div>
 
-                <AgendamentoForm/>
+                <RegisterForm/>
             </div>
 
         </StyledContainer>

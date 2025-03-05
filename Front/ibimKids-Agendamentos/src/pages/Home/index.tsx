@@ -103,6 +103,9 @@ export const HomePage = () => {
   useEffect(() => {
     (async () => {
       const responseEscalas = await api.get("/escalas");
+      console.log(agendamentos)
+      console.log(escalas)
+      console.log(professores)
       setEscalas(responseEscalas.data);
 
       const responseProf = await api.get("/professores");
@@ -210,8 +213,8 @@ export const HomePage = () => {
                 <strong>{escala.nome}</strong>
               </div>
               <div>{escala.descricao}</div>
-              <div>Faixa etária: {escala.faixa_etaria}</div>
-              <div>Turno: {escala.data_turno}</div>
+              <div>{escala.faixa_etaria}</div>
+              <div>{escala.data_turno}</div>
             </div>
             <div style={{ display: "flex", gap: "8px" }}>
               <IconButton
@@ -312,70 +315,7 @@ export const HomePage = () => {
             <StyledTitle>
               Atualmente <span>{agendamentos.length}</span> agendamentos
             </StyledTitle>
-
-            {/* <FaPlusCircle style={{ width: '20px', height: '20px', cursor: 'pointer'}} type="button" onClick={toggleModalAddProf}/> */}
           </section>
-          {/* <Table
-            height={400}
-            // width={700}
-            data={agendamentos}
-            onRowClick={(rowData) => {
-              console.log(rowData);
-            }}
-          >
-            <Column width={200} align="center" fixed>
-              <HeaderCell>Nome</HeaderCell>
-              <Cell dataKey="crianca_nome" />
-            </Column>
-            <Column width={200} align="center" fixed>
-              <HeaderCell>Idade</HeaderCell>
-              <Cell dataKey="crianca_idade" />
-            </Column>
-            <Column width={200} align="center" fixed>
-              <HeaderCell>Responsável</HeaderCell>
-              <Cell dataKey="responsavel_nome" />
-            </Column>
-            <Column width={200} align="center" fixed>
-              <HeaderCell>Telefone</HeaderCell>
-              <Cell dataKey="telefone" />
-            </Column>
-            <Column width={200} align="center" fixed>
-              <HeaderCell>Observação</HeaderCell>
-              <Cell dataKey="observacao" />
-            </Column>
-
-            <Column flexGrow={1}>
-              <HeaderCell>&nbsp;</HeaderCell>
-              <Cell></Cell>
-            </Column>
-
-            <Column width={100} align="center" fixed>
-              <HeaderCell>Editar</HeaderCell>
-              <Cell>
-                {(rowData) => (
-                  <MdEdit
-                    style={{ width: "20px", height: "20px", cursor: "pointer" }}
-                    onClick={() => handleEditAgendamento(rowData as Agendamento)}
-                  />
-                )}
-              </Cell>
-            </Column>
-
-            <Column width={100} align="center" fixed>
-              <HeaderCell>Excluir</HeaderCell>
-              <Cell>
-                {(rowData) => (
-                  <FaTrashAlt
-                    style={{ width: "15px", height: "15px", cursor: "pointer" }}
-                    onClick={() =>
-                      handleRemoveAgendamento(rowData as Agendamento)
-                    }
-                  />
-                )}
-              </Cell>
-            </Column>
-
-          </Table> */}
           <AgendamentosTable 
             agendamentos={agendamentos}
             onEdit={handleEditAgendamento}

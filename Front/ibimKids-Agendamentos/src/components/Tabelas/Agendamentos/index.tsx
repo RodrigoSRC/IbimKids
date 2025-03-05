@@ -2,7 +2,7 @@
 import { Table } from "rsuite";
 import { MdEdit } from "react-icons/md";
 import { FaTrashAlt } from "react-icons/fa";
-import { Agendamento } from "../../../pages/HomePage/interface";
+import { Agendamento } from "../../../pages/Home/interface";
 
 const { Column, HeaderCell, Cell } = Table;
 

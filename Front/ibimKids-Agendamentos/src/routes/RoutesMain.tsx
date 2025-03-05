@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom"
-import { RegisterPage } from "../pages/RegisterPage"
-import { LoginPage } from "../pages/LoginPage"
-import { HomePage } from "../pages/HomePage"
-import { AgendamentoPage } from "../pages/AgendamentoPage"
+import { RegisterPage } from "../pages/Register"
+import { LoginPage } from "../pages/Login"
+import { HomePage } from "../pages/Home"
+import { AgendamentoPage } from "../pages/Agendamento"
 import { ProtectedRoutes } from "./ProtectedRoutes"
 import { PublicRoutes } from "./PublicRoutes" 
 

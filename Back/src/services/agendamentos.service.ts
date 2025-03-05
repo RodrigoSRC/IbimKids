@@ -19,19 +19,34 @@ export class AgendamentoService {
         const findEscala = await escalaRepository.findOne({
             where: {
                 id: escalaId
-            }
+            },
+            relations: ["agendamentos"]
         })
+        
+        const totalAgendamentos = findEscala?.agendamentos.length || 0;
+        const limiteEscala = Number(findEscala?.limite); // 🔥 Converte para número se necessário
 
+        if (totalAgendamentos >= limiteEscala) {
+            throw new AppError(`Limite de ${limiteEscala} agendamentos atingido para este turno.`, 400);
+        }
+        
         if (!findEscala) {
             throw new AppError("Escala não encontrada", 404)
         }
 
         const findAgenda = await agendaRepository.findOne({
             where: {
-                crianca_nome
-            }
-        })
-    
+                crianca_nome,
+                escala: {
+                    id: escalaId, // Busca dentro da escala associada
+                    data_escala: findEscala.data_escala,
+                    data_turno: findEscala.data_turno
+                }
+            },
+            relations: ["escala"] // Necessário para acessar os dados da escala
+        });
+        
+        
         if (findAgenda) {
             throw new AppError("Criança já agendada ou com mesmo nome. Por favor colocar outro nome", 409)
         }
@@ -54,7 +69,6 @@ export class AgendamentoService {
             relations: ["escala"],
         }
     );
-    console.log(agendamentos)
     
         // return agendamentos.map((agendamento) => agendamentoSchemaResponse.parse(agendamento));
         return agendamentos

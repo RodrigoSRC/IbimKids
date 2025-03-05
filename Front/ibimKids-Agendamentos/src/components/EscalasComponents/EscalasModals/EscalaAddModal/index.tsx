@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TEscalaSchema, escalaSchema } from "./schema";
 import { EscalasListContext } from "../../../../providers/EscalasListContext";
-import { Modal, TagPicker, Input, Button, Form } from "rsuite";
+import { Modal, TagPicker, Input, Button, Form, Radio, RadioGroup } from "rsuite";
 import { ModalAddTaskProps, Professor } from "./interface";
 import { api } from "../../../../services/api";
 import "rsuite/dist/rsuite.min.css";
@@ -17,6 +17,7 @@ export const AddEscalaModal = ({
     handleSubmit,
     formState: { errors },
     setValue,
+    watch
   } = useForm<TEscalaSchema>({
     resolver: zodResolver(escalaSchema),
     mode: "onChange",
@@ -80,8 +81,6 @@ export const AddEscalaModal = ({
             type="text"
             placeholder="Digite aqui o nome da escala"
             {...register("nome")}
-            // errorMessage={errorMessage}
-            // errorPlacement={errorPlacement}
             error={
               errors.nome
                 ? { message: errors.nome.message ?? "" }
@@ -89,21 +88,45 @@ export const AddEscalaModal = ({
             }
           />
 
-          <Input
-            title="Faixa Etária"
-            type="text"
-            placeholder="Digite aqui a faixa etária"
-            {...register("faixa_etaria")}
-            error={
-              errors.faixa_etaria
-                ? { message: errors.faixa_etaria.message ?? "" }
-                : undefined
-            }
-          />
-        {/* <Form.ErrorMessage show={!!errors.faixa_etaria} placement={errorPlacement as any}>
-          {errors.faixa_etaria?.message}
-        </Form.ErrorMessage> */}
 
+
+          <Form.Group controlId="crianca_idade">
+            <RadioGroup
+              name="faixa_etaria"
+              inline
+              value={watch("faixa_etaria")} // Certifica que o valor selecionado está atualizado
+              onChange={(value) => setValue("faixa_etaria", value, { shouldValidate: true })}
+            >
+              <Radio value="BERÇARIO">1 a 3 anos</Radio>
+              <Radio value="INFANTIL">3 a 5 anos</Radio>
+              <Radio value="JUVENIL">5 a 10 anos</Radio>
+            </RadioGroup>
+
+            {errors.faixa_etaria?.message && (
+              <Form.HelpText style={{ color: "red" }}>
+                {errors.faixa_etaria.message}
+              </Form.HelpText>
+            )}
+          </Form.Group>
+
+          <Form.Group controlId="crianca_idade">
+            <RadioGroup
+              name="faixa_etaria"
+              inline
+              value={watch("faixa_etaria")} // Certifica que o valor selecionado está atualizado
+              onChange={(value) => setValue("faixa_etaria", value, { shouldValidate: true })}
+            >
+              <Radio value="BERÇARIO">1 a 3 anos</Radio>
+              <Radio value="INFANTIL">3 a 5 anos</Radio>
+              <Radio value="JUVENIL">5 a 10 anos</Radio>
+            </RadioGroup>
+
+            {errors.faixa_etaria?.message && (
+              <Form.HelpText style={{ color: "red" }}>
+                {errors.faixa_etaria.message}
+              </Form.HelpText>
+            )}
+          </Form.Group>
 
           <Input
             title="Limite"

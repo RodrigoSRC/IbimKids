@@ -3,7 +3,7 @@ import {z} from "zod"
 const agendamentoSchema = z.object({
     id: z.string(),
     crianca_nome: z.string(),
-    crianca_idade: z.string(),
+    // crianca_idade: z.string(),
     responsavel_nome: z.string(),
     telefone: z.string(),
     observacao: z.string(),

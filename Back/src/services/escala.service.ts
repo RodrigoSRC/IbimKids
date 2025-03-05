@@ -52,15 +52,11 @@ export class EscalaService {
             id: In(professorIds ?? []),
         });
         
-        
-
-        const limite = professores.length * 15;
 
         const escala = escalaRepository.create({
             ...data,
             data_turno: turnoEnum,
             professores: professores,
-            limite: limite.toString()
         });
     
         await escalaRepository.save(escala)
@@ -72,13 +68,14 @@ export class EscalaService {
     async list() {
         const escalaRepository = AppDataSource.getRepository(Escala);
 
-        const escalas = await escalaRepository.find(
-            {
-            relations: ["professores"], 
-        }
-    );
+        const escalas = await escalaRepository.find({
+            relations: ["professores", "agendamentos"]
+          }
+        );
+          
     
         // return escalas.map((escala) => escalaSchemaResponse.parse(escala));
+        // console.log(escalas)
         return escalas
     }
 
